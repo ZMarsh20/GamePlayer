@@ -12,31 +12,16 @@ def end(sig, frame):
 
 def kittyClaw():
     global END
-    piece = input("Who do you want? PBR, Master, Humpy, Muffy, Poopy, Saki, Smokie or Grindy\nSWK requires dislodging and experimentation or you can try your luck\n").lower()
-    if piece == "pbr":
-        w = 3.8
-        d = 1.8
-    elif piece == "master":
-        w = 2.6
-        d = 3.2
-    elif piece == "grindy":
-        w = 3.8
-        d = .2
-    elif piece == "smokie":
-        w = 2
-        d = .2
-    elif piece == "poopy":
-        w = 2.7
-        d = 1.4
-    elif piece == "saki":
-        w = 1.5
-        d = 3.8
-    elif piece == "muffy":
-        w = .1
-        d = 3.5
-    elif piece == "humpy":
-        w = .1
-        d = 1.7
+    piece = input("Who do you want? PBR, Master, Humpy, Muffy, Poopy, Saki, Smokie or Grindy\n"
+                  "SWK requires dislodging and experimentation or you can try your luck\n").lower()
+    if piece == "pbr": w,d = 3.8,1.8
+    elif piece == "master": w,d = 2.6,3.2
+    elif piece == "grindy": w,d = 3.8,.2
+    elif piece == "smokie": w,d = 2,.2
+    elif piece == "poopy": w,d = 2.7,1.4
+    elif piece == "saki": w,d = 1.5,3.8
+    elif piece == "muffy": w,d = .1,3.5
+    elif piece == "humpy": w,d = .1, 1.7
     else:
         print("Not an option")
         return kittyClaw()
@@ -70,13 +55,11 @@ try:
         while not END:
             pydirectinput.move(20,0)
             time.sleep(5)
-            if END:
-                break
+            if END: break
             pydirectinput.move(-20,0)
             time.sleep(5)
 
-    elif game == 1:
-        kittyClaw()
+    elif game == 1: kittyClaw()
 
 except:
     print("Not an option")
