@@ -1,9 +1,4 @@
-import pyautogui
-import pydirectinput
-import time
-import signal
-import keyboard
-import threading
+import pyautogui, pydirectinput, time, signal, keyboard, sys, os
 
 END = False
 
@@ -14,10 +9,15 @@ def end(sig, frame):
 
 def gta_handler():
     global END
+    needToType = False
     while not END:
         key = keyboard.read_key()
         pydirectinput.PAUSE=0.01
-        if key in "hjkl":
+        if key == '=':
+            needToType = not needToType
+            time.sleep(1)
+        if needToType: continue
+        if key in "hjklc'-":
             pydirectinput.press(['m','down','down'])
             if key in "hj":
                 pydirectinput.press(['down','enter','up','up','enter','down'])
@@ -25,14 +25,22 @@ def gta_handler():
                 if key == 'j': pydirectinput.press(['down','down','enter','up','up'])
                 pydirectinput.press('enter')
 
-            elif key in "kl":
-                pydirectinput.press(['enter','down','down'])
+            elif key in "kl'c":
+                if key in "'l": pydirectinput.press(['enter','down','down'])
+                elif key == 'k': pydirectinput.press('enter')
 
-                if key == "k":
+                if key == "'":
                     for i in range(5): pydirectinput.press('right')
                 elif key == "l":
-                    pydirectinput.press(['down','down'])
+                    pydirectinput.press(['down','down','down'])
+
+                elif key == 'c':
+                    time.sleep(2)
+                    pydirectinput.press(['down','down','down','enter','down','down','down','left','left'])
                 pydirectinput.press(['enter','esc','esc'])
+
+            if key == '-':
+                pydirectinput.press(['down','down','enter','enter','left','down','enter','esc','esc','esc'])
 
         elif key == ";":
             pydirectinput.press('up')
@@ -48,8 +56,29 @@ def gta_handler():
             pydirectinput.press('esc')
             time.sleep(.3)
             pydirectinput.press('right')
-            time.sleep(.6)
-            pydirectinput.press(['enter','enter','down','enter','enter','up','up','up','enter'])
+            time.sleep(.65)
+            pydirectinput.press(['enter','enter','down','enter','enter'])
+            time.sleep(.35)
+            pydirectinput.press(['up','up','up','enter'])
+
+def bl3_farmer():
+    global END
+    while not END:
+        key = keyboard.read_key()
+        pydirectinput.PAUSE=0.01
+        if key == "up":
+            pydirectinput.press('esc')
+            time.sleep(.1)
+            pydirectinput.click(300,900)
+            time.sleep(.3)
+            for _ in range(5):
+                time.sleep(.1)
+                pydirectinput.click(700,850)
+            time.sleep(1)
+            for _ in range(5):
+                pydirectinput.moveTo(200,250)
+                pydirectinput.press('enter')
+                time.sleep(.4)
 
 def kittyClaw():
     global END
@@ -90,28 +119,80 @@ def kittyClaw():
         time.sleep(d+w+6)
     print("Total tries:",tries)
 
-print("Pick an action:")
-print("0: AFK Mouse wiggle")
-print("1: Kitty Claw game")
-print("gta: gta quick keys")
+def back_and_fourth():
+    time.sleep(5)
+    backFourth = ['','left','right']
+    val = 1
+    while not END:
+        pydirectinput.keyDown(backFourth[val])
+        for i in range(12):
+            pydirectinput.press('z')
+            time.sleep(.5)
+        pydirectinput.keyUp(backFourth[val])
+        val = -val
 
-try:
-    game = input().strip()
-    signal.signal(signal.SIGINT, end)
+def pokeSlots():
+    while not END:
+        pydirectinput.PAUSE=0.5
+        pydirectinput.press(['down', 'down', 'down'])
+        pydirectinput.press(['x', 'x', 'x'])
+        time.sleep(2)
+def core_reduce(app, core):
+    cmd = 'powershell "ForEach($PROCESS in GET-PROCESS '
+    cmd += app
+    cmd += ') { $PROCESS.ProcessorAffinity='
+    cmd += str(int('1'*int(core),2)) + '"}'
+    os.system(cmd)
 
-    if game == "0":
+def repeater(key,timer,times):
+    time.sleep(10)
+    for _ in range(times):
+        pydirectinput.press(key)
+        time.sleep(timer)
+
+if '-i' in sys.argv: game = sys.argv[2:]
+else:
+    print("Pick an action:")
+    print("0: AFK Mouse wiggle")
+    print("1: Kitty Claw game")
+    print("2: Back and fourth")
+    print("3: Pokemon Slots")
+    print("repeat <key> <time> <times>: Repeater")
+    print("gta: gta quick keys")
+    print("bl3: reset helper")
+    print("core <app> <count>: Core Reduce")
+
+    game = input().strip().split()
+signal.signal(signal.SIGINT, end)
+
+if game[0] == "0":
+    time.sleep(5)
+    while not END:
+        pydirectinput.move(20,0)
         time.sleep(5)
-        while not END:
-            pydirectinput.move(20,0)
-            time.sleep(5)
-            if END: break
-            pydirectinput.move(-20,0)
-            time.sleep(5)
+        if END: break
+        pydirectinput.move(-20,0)
+        time.sleep(5)
+elif game[0] == "1": kittyClaw()
+elif game[0] == "2": back_and_fourth()
+elif game[0] == "3": pokeSlots()
+elif game[0] == "repeat" and len(game) == 4: repeater(game[1],float(game[2]),int(game[3]))
+elif game[0] == "gta": gta_handler()
+elif game[0] == "bl3": bl3_farmer()
+elif game[0] == "core":
+    if len(game) == 1:
+        try:
+            gamesList = [ 'GTA5',
+                          'HogwartsLegacy',
+                          'Overwatch2',
+                          'Valorant',
+                          'Borderlands3',
+                          'Witcher3',
+                          'Minecraft',
+                          ]
+            for gameName in gamesList: core_reduce(gameName,16)
+            core_reduce('Cyberpunk2077',18)
+        except: pass
+    else: core_reduce(game[1],game[2])
 
-    elif game == "1": kittyClaw()
-
-    elif game == "gta": gta_handler()
-
-
-except:
-    print("Not an option")
+else: print("Not an option")
