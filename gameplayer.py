@@ -17,6 +17,10 @@ def gta_handler():
             needToType = not needToType
             time.sleep(1)
         if needToType: continue
+        if key == 'p':
+            time.sleep(1)
+            os.system("start /min gameplayer.cmd -i 0")
+            pydirectinput.click()
         if key in "hjklc'-":
             pydirectinput.press(['m','down','down'])
             if key in "hj":
@@ -31,6 +35,12 @@ def gta_handler():
 
                 if key == "'":
                     for i in range(5): pydirectinput.press('right')
+                    while key not in ['esc','enter']:
+                        key = keyboard.read_key()
+                        time.sleep(.15)
+                        if key == 'right':
+                            for _ in range(5): pydirectinput.press('right')
+
                 elif key == "l":
                     pydirectinput.press(['down','down','down'])
 
@@ -40,7 +50,9 @@ def gta_handler():
                 pydirectinput.press(['enter','esc','esc'])
 
             if key == '-':
-                pydirectinput.press(['down','down','enter','enter','left','down','enter','esc','esc','esc'])
+                pydirectinput.press(['down','down','enter','enter'])
+                for _ in range(8): pydirectinput.press(['left','down','enter','up'])
+                pydirectinput.press(['esc','esc','esc'])
 
         elif key == ";":
             pydirectinput.press('up')
