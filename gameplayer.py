@@ -21,6 +21,61 @@ def gta_handler():
             time.sleep(1)
             os.system("start /min gameplayer.cmd -i 0")
             pydirectinput.click()
+        if key == ']':
+            def burn(k,bars,space):
+                for _ in range(bars):
+                    time.sleep(0.2)
+                    pydirectinput.keyDown(k)
+                    time.sleep(space)
+                    pydirectinput.keyUp(k)
+                time.sleep(0.3)
+            def angle(k1,k2):
+                pydirectinput.keyDown(k1)
+                pydirectinput.keyDown(k2)
+                time.sleep(0.1)
+                pydirectinput.keyUp(k1)
+                pydirectinput.keyUp(k2)
+                time.sleep(0.3)
+
+            pydirectinput.mouseDown()
+            burn('d',5,0.195)
+            angle('d','s')
+            burn('s',6,0.215)
+            angle('s','a')
+            burn('a',5,0.195)
+            angle('a','w')
+            burn('w',6,0.215)
+            pydirectinput.mouseUp()
+        if key == '[':
+            sleeper = False
+            if sleeper:
+                for _ in range(20):
+                    pydirectinput.press('e')
+                    time.sleep(20)
+                    pydirectinput.press('enter')
+                    time.sleep(200)
+                    pydirectinput.keyDown('del')
+                    time.sleep(2)
+                    pydirectinput.keyUp('del')
+                    time.sleep(5)
+            else:
+                pydirectinput.PAUSE=0.35
+                char = 'd','w'
+                char2 = 'a' if char[0] == 'd' else 'd','s' if char[1] == 'w' else 'w'
+                for _ in range(10):
+                    pydirectinput.press('e')
+                    time.sleep(30)
+                    pydirectinput.press('enter')
+                    time.sleep(9)
+                    pydirectinput.press([char[0],char[0],char[0],char[0],char[1],char[1],char[0],char[0],char[0],char[0],char[0],char[0],char2[1],char2[1],char2[0]])
+                    pydirectinput.press(['space','space','space','space'])
+                    time.sleep(15)
+                    pydirectinput.press([char[0],char[0],char[0],char[0],char[1],char[1],char[0],char[0],char[0],char[0],char[0],char[0],char2[1],char2[1],char2[0]])
+                    pydirectinput.press(['space','space','space','space'])
+                    pydirectinput.keyDown('del')
+                    time.sleep(2)
+                    pydirectinput.keyUp('del')
+                    time.sleep(15)
         if key in "hjklc'-":
             pydirectinput.press(['m','down','down'])
             if key in "hj":
