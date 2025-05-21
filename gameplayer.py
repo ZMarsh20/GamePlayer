@@ -1,4 +1,4 @@
-import pyautogui, pydirectinput, time, signal, keyboard, sys, os
+import pyautogui, pydirectinput, time, signal, keyboard, sys, os, threading, queue
 
 END = False
 
@@ -46,9 +46,9 @@ def gta_handler():
             angle('a','w')
             burn('w',6,0.215)
             pydirectinput.mouseUp()
-        # if key == '[':
+        # if key == '[': #Gang Wars automation
         #     sleeper = False
-        #     if sleeper:
+        #     if sleeper: #Do one less than main and tap '[' when main starts game
         #         for _ in range(20):
         #             pydirectinput.press('e')
         #             time.sleep(20)
@@ -60,7 +60,7 @@ def gta_handler():
         #             time.sleep(5.75)
         #     else:
         #         pydirectinput.PAUSE=0.35
-        #         char = 'd','s'
+        #         char = 'd','s' #Hoods: 'd','w' for Punks ; Yokels: 'd','s' for Bikers ; and opposite directions for opposites
         #         char2 = 'a' if char[0] == 'd' else 'd','s' if char[1] == 'w' else 'w'
         #         for _ in range(21):
         #             pydirectinput.press(['e','e','e'])
@@ -76,6 +76,7 @@ def gta_handler():
         #             time.sleep(2)
         #             pydirectinput.keyUp('del')
         #             time.sleep(15)
+
         if key in "hjklc'-":
             pydirectinput.press(['m','down','down'])
             if key in "hj":
@@ -147,6 +148,16 @@ def bl3_farmer():
                 pydirectinput.press('enter')
                 time.sleep(.4)
 
+def raceAndChase():
+    for _ in range(40):
+        for _ in range(10):
+            pydirectinput.press('enter')
+            time.sleep(0.5)
+        pydirectinput.keyDown('shift')
+        time.sleep(40)
+        pydirectinput.keyUp('shift')
+        time.sleep(30)
+
 def kittyClaw():
     global END
     piece = input("Who do you want? PBR, Master, Humpy, Muffy, Poopy, Saki, Smokie or Grindy\n"
@@ -186,6 +197,144 @@ def kittyClaw():
         time.sleep(d+w+6)
     print("Total tries:",tries)
 
+def professorOfLove():
+    time.sleep(5)
+    # set up Nazar left of game and have sleeper repeat 'e' every second for very long. Main needs first person
+    while not END:
+        for _ in range(4):
+            pydirectinput.press(['e','e','e'])
+            time.sleep(30)
+        pydirectinput.keyDown('d')
+        time.sleep(.5)
+        pydirectinput.keyUp('d')
+        pydirectinput.keyDown('w')
+        time.sleep(1)
+        pydirectinput.keyUp('w')
+        pydirectinput.press(['e', 'e', 'e'])
+        time.sleep(25)
+        pydirectinput.keyDown('a')
+        time.sleep(.5)
+        pydirectinput.keyUp('a')
+
+def grogJump():
+    pydirectinput.PAUSE=0.01
+    while not END:
+        space = keyboard.read_key()
+        if space == 'space':
+            pydirectinput.press('left')
+
+def movePenetrator(num,slot,pos1,pos2):
+    wall = num-pos1
+    flip = not num <3
+    right = True
+    slotDiff = slot - pos2
+    if abs(wall) == 2:
+        distance = 5
+        if pos2 in [2,3] and slot in [2,3]: distance += 2
+        distance += abs(slot-pos2)
+
+        if pos2 <3:
+            right = not right
+            if pos2 == 2 and slot == 4: right = not right
+        elif pos2 == 3 and slot == 1: right = not right
+        if num < pos1: right = not right
+    elif wall == 0:
+        right = slotDiff > 0
+        if flip: right = not right
+        distance = abs(slotDiff)
+    else:
+        if abs(wall) > 2: right = not right
+        if wall < 0: right = not right
+        if abs(pos1-num) == 3: distance = pos2+slot-1
+        elif pos1+num == 5: distance = 9-pos2-slot
+        elif (pos1 == 1 and num == 2) or (pos1 == 4 and num == 3): distance = 4 - pos2 + slot
+        else: distance = 4 + pos2 - slot
+    direction = 'd' if right else 'a'
+
+    pydirectinput.press([direction for _ in range(distance)])
+    time.sleep(.2)
+    pydirectinput.press(['space'])
+
+
+def penetrator():
+    print("  1  2  3  4  ")
+    print("1  ---------  1")
+    print("2 |         | 2")
+    print("3 |         | 3")
+    print("4  ---------  4")
+    print("  1  2  3  4  ")
+
+    pos1, pos2 = 1, 1
+    pydirectinput.PAUSE=0.03
+    while not END:
+        key = keyboard.read_key()
+        if key == "up":
+            while key == "up": key = keyboard.read_key()
+            if key in "1234":
+                movePenetrator(1,int(key),pos1,pos2)
+                pos1,pos2 = 1,int(key)
+
+        elif key == "right":
+            while key == "right": key = keyboard.read_key()
+            if key in "1234":
+                movePenetrator(2,int(key),pos1,pos2)
+                pos1,pos2 = 2,int(key)
+
+        elif key == "down":
+            while key == "down": key = keyboard.read_key()
+            if key in "1234":
+                movePenetrator(3,int(key),pos1,pos2)
+                pos1,pos2 = 3,int(key)
+
+        elif key == "left":
+            while key == "left": key = keyboard.read_key()
+            if key in "1234":
+                movePenetrator(4,int(key),pos1,pos2)
+                pos1,pos2 = 4,int(key)
+
+        elif key == "enter": pos1,pos2 = 1,1
+
+def autoPenetrator():
+    pos1,pos2 = 1,1
+    locations = [
+        (1645,660),(1685,660),(1750,660),(1790,660),
+        (1840,700),(1840,750),(1840,810),(1840,850),
+        (1645,900),(1685,900),(1750,900),(1790,900),
+        (1600,700),(1600,750),(1600,810),(1600,850)
+    ]
+    pydirectinput.PAUSE=0.01
+    time.sleep(5)
+    pydirectinput.press('enter')
+
+    def movementQueue(q,stop_event):
+        while not stop_event.is_set() or not q.empty():
+            try:
+                bullet = q.get()
+                movePenetrator(bullet[0],bullet[1],bullet[2],bullet[3])
+                time.sleep(.2)
+            except: pass
+
+    bulletQueue = queue.Queue()
+    stop_event = threading.Event()
+    movementThread = threading.Thread(target=movementQueue,args=(bulletQueue,stop_event))
+    movementThread.start()
+
+    while not END:
+        screen = pyautogui.screenshot()
+        if screen.getpixel((1730,765))[0] > 100 and screen.getpixel((1730,765))[1] > 100:
+            pos1,pos2 = 1,1
+
+            time.sleep(4)
+            continue
+        for i in range(len(locations)):
+            x,y = locations[i]
+            if screen.getpixel((x,y))[1] > 100:
+                bulletQueue.put((i//4+1,i%4+1,pos1,pos2))
+                pos1,pos2 = i//4+1,i%4+1
+        time.sleep(1)
+    stop_event.set()
+    movementThread.join()
+
 def back_and_fourth():
     time.sleep(5)
     backFourth = ['','left','right']
@@ -204,6 +353,7 @@ def pokeSlots():
         pydirectinput.press(['down', 'down', 'down'])
         pydirectinput.press(['x', 'x', 'x'])
         time.sleep(2)
+
 def core_reduce(app, core):
     cmd = 'powershell "ForEach($PROCESS in GET-PROCESS '
     cmd += app
@@ -224,6 +374,10 @@ else:
     print("1: Kitty Claw game")
     print("2: Back and fourth")
     print("3: Pokemon Slots")
+    print("4: Professor of Love")
+    print("5: Grog Jump always kick")
+    print("6: Penetrator input")
+    print("7: Auto Penetrator")
     print("repeat <key> <time> <times>: Repeater")
     print("gta: gta quick keys")
     print("bl3: reset helper")
@@ -243,6 +397,10 @@ if game[0] == "0":
 elif game[0] == "1": kittyClaw()
 elif game[0] == "2": back_and_fourth()
 elif game[0] == "3": pokeSlots()
+elif game[0] == "4": professorOfLove()
+elif game[0] == "5": grogJump()
+elif game[0] == "6": penetrator()
+elif game[0] == "7": autoPenetrator()
 elif game[0] == "repeat" and len(game) == 4: repeater(game[1],float(game[2]),int(game[3]))
 elif game[0] == "gta": gta_handler()
 elif game[0] == "bl3": bl3_farmer()
