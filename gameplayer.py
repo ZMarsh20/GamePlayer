@@ -367,6 +367,13 @@ def repeater(key,timer,times):
         pydirectinput.press(key)
         time.sleep(timer)
 
+def spammer(key, stopKey):
+    pydirectinput.PAUSE=0.01
+    while not END:
+        K = keyboard.read_key()
+        if K == stopKey: pydirectinput.press(key)
+
+
 if '-i' in sys.argv: game = sys.argv[2:]
 else:
     print("Pick an action:")
@@ -379,6 +386,7 @@ else:
     print("6: Penetrator input")
     print("7: Auto Penetrator")
     print("repeat <key> <time> <times>: Repeater")
+    print("spam <key> <trigger key>: Spam key on trigger key hold")
     print("gta: gta quick keys")
     print("bl3: reset helper")
     print("core <app> <count>: Core Reduce")
@@ -402,6 +410,7 @@ elif game[0] == "5": grogJump()
 elif game[0] == "6": penetrator()
 elif game[0] == "7": autoPenetrator()
 elif game[0] == "repeat" and len(game) == 4: repeater(game[1],float(game[2]),int(game[3]))
+elif game[0] == "spam" and len(game) == 3: spammer(game[1],game[2])
 elif game[0] == "gta": gta_handler()
 elif game[0] == "bl3": bl3_farmer()
 elif game[0] == "core":
