@@ -239,7 +239,9 @@ def gta_handler():
             pydirectinput.press(['down','enter'])
 
         elif key == "n":
-            pydirectinput.PAUSE=.15
+            time.sleep(.25)
+            key = keyboard.read_key()
+            pydirectinput.PAUSE=.05
             pydirectinput.press('esc')
             time.sleep(.3)
             pydirectinput.press('right')
@@ -247,6 +249,21 @@ def gta_handler():
             pydirectinput.press(['enter','enter','down','enter','enter'])
             time.sleep(.35)
             pydirectinput.press(['up','up','up','enter'])
+            time.sleep(.25)
+            pydirectinput.PAUSE=.03
+            if key in 'abc':
+                val = 4
+                if key in 'bc': val += 2
+                if key == 'c': val += 5
+                pydirectinput.press(['down' for _ in range(val)])
+            elif key in 'hn':
+                val = 4
+                if key == 'h': val += 3
+                pydirectinput.press(['up' for _ in range(val)])
+                pydirectinput.press('enter')
+                time.sleep(.5)
+                pydirectinput.press('enter')
+            else: continue
 
 def bl3_farmer():
     global END
@@ -526,6 +543,7 @@ else:
     print("repeat <key> <time> <times>: Repeater")
     print("spam <key> <trigger key>: Spam key on trigger key hold")
     print("gta: gta quick keys")
+    print("gtaafk: claim business earnings afk")
     print("bl3: reset helper")
     print("core <app> <count>: Core Reduce")
 
