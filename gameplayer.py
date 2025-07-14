@@ -1,4 +1,4 @@
-import pyautogui, pydirectinput, time, signal, keyboard, sys, os, threading, queue
+import pyautogui, pydirectinput, time, signal, keyboard, sys, os, threading, queue, psutil
 
 END = False
 
@@ -241,12 +241,14 @@ def gta_handler():
         elif key == "n":
             time.sleep(.25)
             key = keyboard.read_key()
-            pydirectinput.PAUSE=.05
+            pydirectinput.PAUSE=.06
             pydirectinput.press('esc')
             time.sleep(.3)
             pydirectinput.press('right')
             time.sleep(.65)
-            pydirectinput.press(['enter','enter','down','enter','enter'])
+            pydirectinput.press(['enter','enter'])
+            time.sleep(.2)
+            pydirectinput.press(['down','enter','enter'])
             time.sleep(.35)
             pydirectinput.press(['up','up','up','enter'])
             time.sleep(.25)
@@ -264,6 +266,26 @@ def gta_handler():
                 time.sleep(.5)
                 pydirectinput.press('enter')
             else: continue
+
+        elif key == '"':
+            if "AutoHotkey.exe" in (p.name() for p in psutil.process_iter()):
+                time.sleep(1)
+                pydirectinput.keyDown('ctrl')
+                pydirectinput.keyDown('f12')
+                time.sleep(.2)
+                pydirectinput.keyUp('ctrl')
+                pydirectinput.keyUp('f12')
+                time.sleep(5)
+                os.system("start /min cmd /c taskkill /f /im AutoHotkey.exe>nul")
+            else:
+                os.system("start /min cmd /c V1.1_nosavingmethod.ahk")
+                time.sleep(1)
+                pydirectinput.keyDown('ctrl')
+                pydirectinput.keyDown('f9')
+                time.sleep(.2)
+                pydirectinput.keyUp('ctrl')
+                pydirectinput.keyUp('f9')
+
 
 def bl3_farmer():
     global END
