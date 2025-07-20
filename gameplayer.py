@@ -32,7 +32,7 @@ def gta_handler():
             pydirectinput.press(['enter','enter','esc','down','enter','up','enter','esc','down','enter','enter','esc','down','enter','down','enter','esc','down','enter','enter','right','enter'])
             time.sleep(.2)
             pydirectinput.press('enter')
-        if key == ']': #Cut grate Cayo
+        if key == '~': #Cut grate Cayo
             def wiggle(k):
                 if k == 'd': back = 'a'
                 if k == 'w': back = 's'
@@ -174,27 +174,30 @@ def gta_handler():
         #             pydirectinput.keyUp('del')
         #             time.sleep(15)
 
-        if key == '~':
-            pydirectinput.PAUSE=.01
-            pydirectinput.press(['q','up','up'])
-            time.sleep(1)
-            pydirectinput.keyDown('w')
-            time.sleep(1)
-            pydirectinput.press('space')
-            pydirectinput.keyUp('w')
-            time.sleep(1)
-            pydirectinput.press(['up','up'])
-            time.sleep(1.5)
-            pydirectinput.press('esc')
-            time.sleep(1)
-            pydirectinput.PAUSE=.1
-            pydirectinput.press(['down','left'])
-            pydirectinput.PAUSE=.01
-            for _ in range(5):
-                pydirectinput.press('enter')
-                time.sleep(1.5)
-                pydirectinput.press('esc')
-                time.sleep(2)
+        if key == ']':
+            pydirectinput.keyDown('shift')
+
+        # if key == '~':
+        #     pydirectinput.PAUSE=.01
+        #     pydirectinput.press(['q','up','up'])
+        #     time.sleep(1)
+        #     pydirectinput.keyDown('w')
+        #     time.sleep(1)
+        #     pydirectinput.press('space')
+        #     pydirectinput.keyUp('w')
+        #     time.sleep(1)
+        #     pydirectinput.press(['up','up'])
+        #     time.sleep(1.5)
+        #     pydirectinput.press('esc')
+        #     time.sleep(1)
+        #     pydirectinput.PAUSE=.1
+        #     pydirectinput.press(['down','left'])
+        #     pydirectinput.PAUSE=.01
+        #     for _ in range(5):
+        #         pydirectinput.press('enter')
+        #         time.sleep(1.5)
+        #         pydirectinput.press('esc')
+        #         time.sleep(2)
 
         if key in "hjklc'-":
             pydirectinput.press(['m','down','down'])
@@ -262,8 +265,10 @@ def gta_handler():
                 val = 4
                 if key == 'h': val += 3
                 pydirectinput.press(['up' for _ in range(val)])
+            if key in 'abhn':
+                time.sleep(.2)
                 pydirectinput.press('enter')
-                time.sleep(.5)
+                time.sleep(.2)
                 pydirectinput.press('enter')
             else: continue
 
@@ -285,7 +290,6 @@ def gta_handler():
                 time.sleep(.2)
                 pydirectinput.keyUp('ctrl')
                 pydirectinput.keyUp('f9')
-
 
 def bl3_farmer():
     global END
@@ -521,8 +525,11 @@ def core_reduce(app, core):
 def repeater(key,timer,times):
     time.sleep(10)
     for _ in range(times):
-        pydirectinput.press(key)
+        if key == 'lclick': pydirectinput.leftClick()
+        elif key == 'rclick': pydirectinput.rightClick()
+        else: pydirectinput.press(key)
         time.sleep(timer)
+
 
 def spammer(key, stopKey):
     pydirectinput.PAUSE=0.01
