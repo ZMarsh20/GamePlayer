@@ -1,4 +1,4 @@
-import pyautogui, pydirectinput, time, signal, keyboard, sys, os, threading, queue, psutil
+import pyautogui, pydirectinput, time, signal, keyboard, sys, os, threading, queue, psutil, win32api, win32con
 
 END = False
 
@@ -513,21 +513,23 @@ def gtaafk():
             time.sleep(5)
             pydirectinput.moveTo(1680,850)
             pydirectinput.press('enter')
-            time.sleep(.2)
+            time.sleep(.4)
             pydirectinput.moveTo(1050,660)
             pydirectinput.press('enter')
-            time.sleep(.2)
+            time.sleep(.4)
             pydirectinput.moveTo(1680,1050)
             pydirectinput.press('enter')
-            time.sleep(.2)
+            time.sleep(.4)
             pydirectinput.moveTo(1850,830)
             pydirectinput.press('enter')
-            time.sleep(.2)
+            time.sleep(.4)
             pydirectinput.press('esc')
-            time.sleep(.2)
+            time.sleep(.4)
             pydirectinput.press('esc')
-            time.sleep(5)
-            pydirectinput.rightClick()
+            time.sleep(8)
+            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
+            time.sleep(.01)
+            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
         for _ in range(50):
             time.sleep(60)
             pydirectinput.move(20,0)
