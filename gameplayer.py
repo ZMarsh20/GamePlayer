@@ -12,15 +12,18 @@ def gta_handler():
     needToType = False
     while not END:
         key = keyboard.read_key()
-        pydirectinput.PAUSE=0.02
+        pydirectinput.PAUSE=0.025
         if key == '=':
             needToType = not needToType
             time.sleep(1)
         if needToType: continue
-        if key == 'p':
-            time.sleep(1)
-            os.system("start /min gameplayer.cmd -i gtaafk")
+        def gtapause(m):
+            time.sleep(5)
+            pydirectinput.press('esc')
+            os.system("start /min gameplayer.cmd -i " + m)
             pydirectinput.click()
+        if key == 'p': gtapause("0")
+        if key == 'P': gtapause("gtaafk")
         if key == '}': #Launch Cayo
             pydirectinput.press(['e','e','right','enter','right','enter'])
             time.sleep(1)
@@ -33,103 +36,34 @@ def gta_handler():
             time.sleep(.2)
             pydirectinput.press('enter')
         if key == '~': #Cut grate Cayo
-            def wiggle(k):
-                if k == 'd': back = 'a'
-                if k == 'w': back = 's'
-                if k == 's': back = 'w'
-                if k == 'a': back = 'd'
-                pydirectinput.keyDown(back)
-                time.sleep(.06)
-                pydirectinput.keyUp(back)
-                pydirectinput.keyDown(k)
-                time.sleep(.06)
-                pydirectinput.keyUp(k)
+            order = [
+                ('d',[(.2,.19),(.2,.185),(.2,.17),(.2,.17),(.2,.17),(.2,.08)]),
+                ('s',[(0,.07),(.2,.2),(.2,.23),(.2,.2),(.2,.2),(.2,.2),(.2,.23),(.2,.08)]),
+                ('a',[(0,.07),(.2,.17),(.2,.185),(.2,.185),(.2,.18),(.2,.18),(.2,.07)]),
+                ('w',[(0,.05),(.2,.2),(.2,.23),(.2,.2),(.2,.19),(.2,.22),(.2,.24)])
+            ]
 
-            def burn(k,bars,space):
-                pydirectinput.keyDown(k)
-                time.sleep(.03)
-                for _ in range(bars):
-                    pydirectinput.keyDown(k)
-                    time.sleep(space)
-                    pydirectinput.keyUp(k)
-                    wiggle(k)
-            def angle(k1,k2):
-                pydirectinput.keyDown(k1)
-                pydirectinput.keyDown(k2)
-                time.sleep(0.06)
-                pydirectinput.keyUp(k1)
-                pydirectinput.keyUp(k2)
-                wiggle(k2)
-
-            pydirectinput.mouseDown()
+            pydirectinput.keyDown('w')
+            pydirectinput.keyDown('a')
             time.sleep(.2)
-            burn('d',5,0.165)
-            angle('d','s')
-            burn('s',6,0.2)
-            angle('s','a')
-            burn('a',5,0.165)
-            angle('a','w')
-            burn('w',6,0.2)
+            pydirectinput.keyUp('w')
+            pydirectinput.keyUp('a')
+            pydirectinput.keyDown('d')
+            pydirectinput.keyDown('s')
+            time.sleep(.15)
+            pydirectinput.keyUp('s')
+            time.sleep(.04)
+            pydirectinput.keyUp('d')
+            pydirectinput.mouseDown()
+            for direction,ord in order:
+                for tim,timer in ord:
+                    time.sleep(tim)
+                    pydirectinput.keyDown(direction)
+                    time.sleep(timer)
+                    pydirectinput.keyUp(direction)
+            time.sleep(.3)
             pydirectinput.mouseUp()
 
-            if False: #incase I want to try arbitrary timing for grate cut WIP
-                locations = [
-                    #top
-                    (1125, 230), (1180, 390),
-                    (1275, 230), (1305, 390),
-                    (1350, 230), (1440, 390),
-                    (1495, 230), (1560, 390),
-                    (1620, 230), (1680, 390),
-                    (1755, 230), (1830, 390),
-                    # right
-                    (1795, 280), (1890, 480),
-                    (1795, 430), (1890, 590),
-                    (1795, 530), (1890, 690),
-                    (1795, 675), (1890, 835),
-                    (1795, 800), (1890, 960),
-                    (1795, 905), (1890, 1065),
-                    (1795, 1000), (1890, 1160),
-                    # bottom
-                    (1660, 1110), (1720, 1320),
-                    (1530, 1110), (1610, 1320),
-                    (1420, 1110), (1500, 1320),
-                    (1300, 1110), (1360, 1320),
-                    (1150, 1110), (1220, 1320),
-                    (1020, 1110), (1100, 1320),
-                    # left
-                    (950, 1030), (1020, 1220),
-                    (950, 900), (1020, 1090),
-                    (950, 800), (1020, 990),
-                    (950, 670), (1020, 860),
-                    (980, 560), (1070, 730),
-                    (980, 420), (1070, 590),
-                    (980, 300), (1070, 470)
-                ]
-                def movement(q, stop_event):
-                    while not stop_event.is_set():
-                        try:
-                            bullet = q.get()
-                            movePenetrator(bullet[0], bullet[1], bullet[2], bullet[3])
-                            time.sleep(.2)
-                        except:
-                            pass
-
-                bulletQueue = queue.Queue()
-                stop_event = threading.Event()
-                movementThread = threading.Thread(target=movement, args=(bulletQueue, stop_event))
-                movementThread.start()
-
-
-                while not END:
-                    screen = pyautogui.screenshot()
-                    for i in range(0,len(locations),2):
-                        x, y = locations[i]
-                        x2,y2 = locations[i+1]
-                        if screen.getpixel((x, y))[1] > 100:
-                            pos1, pos2 = i // 4 + 1, i % 4 + 1
-                    time.sleep(1)
-                stop_event.set()
-                movementThread.join()
         # if key == ']': #Find new session
         #     pydirectinput.PAUSE = .1
         #     for _ in range(7):
@@ -176,8 +110,10 @@ def gta_handler():
 
         if key == ']':
             pydirectinput.keyDown('shift')
+            time.sleep(.5)
+            continue
 
-        # if key == '~':
+        # if key == '~': #wall buffer
         #     pydirectinput.PAUSE=.01
         #     pydirectinput.press(['q','up','up'])
         #     time.sleep(1)
@@ -199,18 +135,22 @@ def gta_handler():
         #         pydirectinput.press('esc')
         #         time.sleep(2)
 
-        if key in "hjklc'-":
+        if key in "hHjJkKlc'-":
             pydirectinput.press(['m','down','down'])
-            if key in "hj":
-                pydirectinput.press(['down','enter','up','up','enter','down'])
-
+            if key in "hjHJ":
+                pydirectinput.press(['down','enter','up'])
+                if key in "hj": pydirectinput.press(['up','enter','down'])
                 if key == 'j': pydirectinput.press(['down','down','enter','up','up'])
+                if key in 'HJ': pydirectinput.press(['enter','down'])
+                if key == 'J': pydirectinput.press(['down','enter','down'])
                 pydirectinput.press('enter')
 
-            elif key in "kl'c":
+            elif key in "Kkl'c":
                 if key in "'l": pydirectinput.press(['enter','down','down'])
-                elif key == 'k': pydirectinput.press('enter')
-
+                if key == 'k': pydirectinput.press('enter')
+                if key == 'K':
+                    pydirectinput.press(['enter','down','left','enter'])
+                    continue
                 if key == "'":
                     for i in range(5): pydirectinput.press('right')
                     while key not in ['esc','enter']:
@@ -229,7 +169,7 @@ def gta_handler():
 
             if key == '-':
                 pydirectinput.press(['down','down','enter','enter'])
-                for _ in range(8): pydirectinput.press(['left','down','enter','up'])
+                for _ in range(8): pydirectinput.press(['left','up','enter','down'])
                 pydirectinput.press('m')
 
         elif key == ";":
@@ -245,31 +185,37 @@ def gta_handler():
             time.sleep(.25)
             key = keyboard.read_key()
             pydirectinput.PAUSE=.06
-            pydirectinput.press('esc')
+            pydirectinput.press('p')
             time.sleep(.3)
             pydirectinput.press('right')
             time.sleep(.65)
-            pydirectinput.press(['enter','enter'])
+            pydirectinput.press('enter')
+            time.sleep(.1)
+            pydirectinput.press('enter')
             time.sleep(.2)
-            pydirectinput.press(['down','enter','enter'])
+            pydirectinput.press('down')
+            time.sleep(.1)
+            pydirectinput.press('enter')
+            time.sleep(.1)
+            pydirectinput.press('enter')
             time.sleep(.35)
-            pydirectinput.press(['up','up','up','enter'])
+            pydirectinput.press(['up','up','up'])
+            time.sleep(.1)
+            pydirectinput.press('enter')
             time.sleep(.25)
             pydirectinput.PAUSE=.03
-            if key in 'abc':
+            if key in 'abcv':
                 val = 4
-                if key in 'bc': val += 2
-                if key == 'c': val += 5
+                if key in 'bcv': val += 3
+                if key in 'cv': val += 5
+                if key == 'v': val += 3
                 pydirectinput.press(['down' for _ in range(val)])
-            elif key in 'hn':
-                val = 4
-                if key == 'h': val += 3
+            elif key in 'fhno':
+                val = 5
+                if key in 'hfn': val += 1
+                if key in 'hf': val += 5
+                if key == 'f': val += 3
                 pydirectinput.press(['up' for _ in range(val)])
-            if key in 'abhn':
-                time.sleep(.2)
-                pydirectinput.press('enter')
-                time.sleep(.2)
-                pydirectinput.press('enter')
             else: continue
 
         elif key == '"':
@@ -539,24 +485,59 @@ def spammer(key, stopKey):
 
 def gtaafk():
     time.sleep(5)
-    pydirectinput.press('esc')
-    time.sleep(5)
+    pydirectinput.PAUSE = .1
+    Casino = False
+    Claim = True
+    Bunker = True
     while True:
-        pydirectinput.PAUSE = .2
-        pydirectinput.press('up')
-        time.sleep(.6)
-        pydirectinput.press(['right', 'enter'])
-        time.sleep(1)
-        pydirectinput.press(['enter','enter'])
-        pydirectinput.PAUSE = .01
-        for _ in range(8):
-            time.sleep(2)
-            pydirectinput.press(['down','enter'])
-        pydirectinput.press(['backspace','backspace'])
-        for _ in range(48):
+        if Casino:
+            pydirectinput.press(['e','tab','enter','enter'])
+            time.sleep(1)
+            pydirectinput.press('esc')
+        if Claim:
+            pydirectinput.PAUSE = .2
+            pydirectinput.press('up')
+            time.sleep(.6)
+            pydirectinput.press(['right', 'enter'])
+            time.sleep(1)
+            pydirectinput.press(['enter','enter'])
+            pydirectinput.PAUSE = .01
+            for _ in range(8):
+                time.sleep(2)
+                pydirectinput.press(['down','enter'])
+            pydirectinput.press(['backspace','backspace'])
+        if Bunker:
+            pydirectinput.press('e')
+            time.sleep(5)
+            pydirectinput.press('enter')
+            time.sleep(5)
+            pydirectinput.moveTo(1680,850)
+            pydirectinput.press('enter')
+            time.sleep(.2)
+            pydirectinput.moveTo(1050,660)
+            pydirectinput.press('enter')
+            time.sleep(.2)
+            pydirectinput.moveTo(1680,1050)
+            pydirectinput.press('enter')
+            time.sleep(.2)
+            pydirectinput.moveTo(1850,830)
+            pydirectinput.press('enter')
+            time.sleep(.2)
+            pydirectinput.press('esc')
+            time.sleep(.2)
+            pydirectinput.press('esc')
+            time.sleep(5)
+            pydirectinput.rightClick()
+        for _ in range(50):
             time.sleep(60)
             pydirectinput.move(20,0)
 
+def mouseCursorInfo():
+    while not END:
+        x, y = pyautogui.position()
+        r, g, b = pyautogui.pixel(x, y)
+        print(f"Mouse at: ({x}, {y}) | RGB Color: ({r}, {g}, {b})",end='\r')
+        time.sleep(0.1)
 
 if '-i' in sys.argv: game = sys.argv[2:]
 else:
@@ -569,6 +550,7 @@ else:
     print("5: Grog Jump always kick")
     print("6: Penetrator input")
     print("7: Auto Penetrator")
+    print("8: Mouse Curser location")
     print("repeat <key> <time> <times>: Repeater")
     print("spam <key> <trigger key>: Spam key on trigger key hold")
     print("gta: gta quick keys")
@@ -594,6 +576,7 @@ elif game[0] == "4": professorOfLove()
 elif game[0] == "5": grogJump()
 elif game[0] == "6": penetrator()
 elif game[0] == "7": autoPenetrator()
+elif game[0] == "8": mouseCursorInfo()
 elif game[0] == "repeat" and len(game) == 4: repeater(game[1],float(game[2]),int(game[3]))
 elif game[0] == "spam" and len(game) == 3: spammer(game[1],game[2])
 elif game[0] == "gta": gta_handler()
@@ -614,5 +597,4 @@ elif game[0] == "core":
             core_reduce('Cyberpunk2077',18)
         except: pass
     else: core_reduce(game[1],game[2])
-
 else: print("Not an option")
