@@ -20,8 +20,14 @@ def gta_handler():
         def gtapause(m):
             time.sleep(5)
             pydirectinput.press('esc')
-            os.system("start /min gameplayer.cmd -i " + m)
+            os.system('start "pause" /min gameplayer.cmd -i ' + m)
             pydirectinput.click()
+            # while True:
+            #     key = keyboard.read_key()
+            #     if key == 'P':
+            #         os.system('start /min cmd /c taskkill /f /im powershell.exe>nul')
+            #         return
+
         if key == 'p': gtapause("0")
         if key == 'P': gtapause("gtaafk")
         if key == '}': #Launch Cayo
@@ -206,17 +212,35 @@ def gta_handler():
             pydirectinput.PAUSE=.03
             if key in 'abcv':
                 val = 4
-                if key in 'bcv': val += 3
+                if key in 'bcv': val += 4
                 if key in 'cv': val += 5
                 if key == 'v': val += 3
                 pydirectinput.press(['down' for _ in range(val)])
             elif key in 'fhno':
-                val = 5
+                val = 4
                 if key in 'hfn': val += 1
                 if key in 'hf': val += 5
                 if key == 'f': val += 3
                 pydirectinput.press(['up' for _ in range(val)])
-            else: continue
+
+            while True:
+                time.sleep(.2)
+                key = keyboard.read_key()
+                if key == 'enter':
+                    time.sleep(.2)
+                    key = keyboard.read_key()
+                    if key == 'enter':
+                        time.sleep(4)
+                        while True:
+                            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
+                            time.sleep(.01)
+                            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
+                            time.sleep(.1)
+                            if pyautogui.pixel(200, 200) == (0,0,0): break
+                        pydirectinput.press('enter')
+                        break
+                    elif key == 'esc': continue
+                elif key == 'esc': break
 
         elif key == '"':
             if "AutoHotkey.exe" in (p.name() for p in psutil.process_iter()):
@@ -476,7 +500,6 @@ def repeater(key,timer,times):
         else: pydirectinput.press(key)
         time.sleep(timer)
 
-
 def spammer(key, stopKey):
     pydirectinput.PAUSE=0.01
     while not END:
@@ -527,9 +550,11 @@ def gtaafk():
             time.sleep(.4)
             pydirectinput.press('esc')
             time.sleep(8)
+
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
-            time.sleep(.01)
-            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
+            time.sleep(.1)
+            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
+
         for _ in range(50):
             time.sleep(60)
             pydirectinput.move(20,0)
