@@ -597,19 +597,24 @@ def gtaclubber():
             pydirectinput.press('enter')
             time.sleep(2)
             pydirectinput.press('m')
-            time.sleep(20)
+            time.sleep(5)
     else:
         while not END:
-            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
+            while True:
+                r,g,b = pyautogui.pixel(2325, 57)
+                if [r,g,b] == [255,255,0]: break
+                else: time.sleep(.1)
             pydirectinput.press(['p','right','right','right'])
             time.sleep(2)
             pydirectinput.press(['enter','enter','enter','enter'])
-            time.sleep(10)
-            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
-            pydirectinput.press(['up','enter','enter','enter'])
-            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
-            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
-            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
+            time.sleep(1)
+            pydirectinput.press('enter')
+            while True:
+                pydirectinput.press('up')
+                r,g,b = pyautogui.pixel(2285, 1150)
+                if [r,g,b] == [255,0,0]: break
+                else: time.sleep(.1)
+            pydirectinput.press(['esc','up','enter','enter','enter'])
 
 
 def mouseCursorInfo():
