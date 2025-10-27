@@ -204,12 +204,12 @@ def gta_handler():
             pydirectinput.press('enter')
             time.sleep(.1)
             pydirectinput.press('enter')
-            time.sleep(.35)
+            time.sleep(.6)
             pydirectinput.press(['up','up','up'])
             time.sleep(.1)
             pydirectinput.press('enter')
             time.sleep(.25)
-            pydirectinput.PAUSE=.03
+            pydirectinput.PAUSE=.02
             if key in 'abcv':
                 val = 4
                 if key in 'bcv': val += 4
@@ -511,7 +511,7 @@ def gtaafk():
     pydirectinput.PAUSE = .1
     Casino = False
     Claim = True
-    Bunker = True
+    Bunker = False
     while True:
         if Casino:
             pydirectinput.press(['e','tab','enter','enter'])
@@ -558,6 +558,59 @@ def gtaafk():
         for _ in range(50):
             time.sleep(60)
             pydirectinput.move(20,0)
+
+def golfta():
+    while not END:
+        key = keyboard.read_key()
+        pydirectinput.PAUSE=0.1
+        if key == 'right':
+            time.sleep(.5)
+            pydirectinput.press(['enter','down','enter','down','enter','down','down','enter'])
+            time.sleep(.3)
+            pydirectinput.press(['up','enter','enter'])
+
+def gtaclubber():
+    pydirectinput.PAUSE = .2
+    time.sleep(5)
+    owner = True
+    if owner:
+        while not END:
+            while True:
+                time.sleep(1)
+                pydirectinput.press('p')
+                time.sleep(1.5)
+                pydirectinput.press(['right','enter'])
+                time.sleep(1)
+                r,g,b = pyautogui.pixel(1180, 340)
+                if r > 200 and g > 200 and b > 200: break
+                else: pyautogui.press('p')
+            pydirectinput.press(['up','up','up','up','up','enter'])
+            time.sleep(.5)
+            pydirectinput.press(['down','enter','enter'])
+            time.sleep(10)
+            pydirectinput.press(['p','right','right','right'])
+            time.sleep(2)
+            pydirectinput.press(['enter','enter','enter','p'])
+            time.sleep(1)
+            pydirectinput.press(['m','enter','enter'])
+            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
+            pydirectinput.press('enter')
+            time.sleep(2)
+            pydirectinput.press('m')
+            time.sleep(20)
+    else:
+        while not END:
+            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
+            pydirectinput.press(['p','right','right','right'])
+            time.sleep(2)
+            pydirectinput.press(['enter','enter','enter','enter'])
+            time.sleep(10)
+            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
+            pydirectinput.press(['up','enter','enter','enter'])
+            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
+            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
+            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
+
 
 def mouseCursorInfo():
     while not END:
@@ -608,6 +661,8 @@ elif game[0] == "repeat" and len(game) == 4: repeater(game[1],float(game[2]),int
 elif game[0] == "spam" and len(game) == 3: spammer(game[1],game[2])
 elif game[0] == "gta": gta_handler()
 elif game[0] == "gtaafk": gtaafk()
+# elif game[0] == "golfta": golfta()
+elif game[0] == "gtaclubber": gtaclubber()
 elif game[0] == "bl3": bl3_farmer()
 elif game[0] == "core":
     if len(game) == 1:
