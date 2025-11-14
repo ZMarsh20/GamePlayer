@@ -30,17 +30,22 @@ def gta_handler():
 
         if key == 'p': gtapause("0")
         if key == 'P': gtapause("gtaafk")
-        if key == '}': #Launch Cayo
-            pydirectinput.press(['e','e','right','enter','right','enter'])
-            time.sleep(1)
-            for _ in range(2):
-                pydirectinput.press(['up','enter'])
-                time.sleep(.2)
-            pydirectinput.press('enter')
-            time.sleep(5)
-            pydirectinput.press(['enter','enter','esc','down','enter','up','enter','esc','down','enter','enter','esc','down','enter','down','enter','esc','down','enter','enter','right','enter'])
-            time.sleep(.2)
-            pydirectinput.press('enter')
+        if key == '}':
+            pydirectinput.press(['enter','enter','enter','down','enter','esc','enter'
+                                    ,'enter','enter','enter','enter','esc','esc','esc'
+                                    ,'enter','enter','enter','enter','enter','down'
+                                    ,'enter','esc','esc','esc','esc','enter'])
+        # if key == '}': #Launch Cayo
+        #     pydirectinput.press(['e','e','right','enter','right','enter'])
+        #     time.sleep(1)
+        #     for _ in range(2):
+        #         pydirectinput.press(['up','enter'])
+        #         time.sleep(.2)
+        #     pydirectinput.press('enter')
+        #     time.sleep(5)
+        #     pydirectinput.press(['enter','enter','esc','down','enter','up','enter','esc','down','enter','enter','esc','down','enter','down','enter','esc','down','enter','enter','right','enter'])
+        #     time.sleep(.2)
+        #     pydirectinput.press('enter')
         if key == '~': #Cut grate Cayo
             order = [
                 ('d',[(.2,.19),(.2,.185),(.2,.17),(.2,.17),(.2,.17),(.2,.08)]),
@@ -559,63 +564,62 @@ def gtaafk():
             time.sleep(60)
             pydirectinput.move(20,0)
 
-def golfta():
-    while not END:
-        key = keyboard.read_key()
-        pydirectinput.PAUSE=0.1
-        if key == 'right':
-            time.sleep(.5)
-            pydirectinput.press(['enter','down','enter','down','enter','down','down','enter'])
-            time.sleep(.3)
-            pydirectinput.press(['up','enter','enter'])
+# def golfta():
+#     while not END:
+#         key = keyboard.read_key()
+#         pydirectinput.PAUSE=0.1
+#         if key == 'right':
+#             time.sleep(.5)
+#             pydirectinput.press(['enter','down','enter','down','enter','down','down','enter'])
+#             time.sleep(.3)
+#             pydirectinput.press(['up','enter','enter'])
 
-def gtaclubber():
-    pydirectinput.PAUSE = .2
-    time.sleep(5)
-    owner = True
-    if owner:
-        while not END:
-            while True:
-                time.sleep(1)
-                pydirectinput.press('p')
-                time.sleep(1.5)
-                pydirectinput.press(['right','enter'])
-                time.sleep(1)
-                r,g,b = pyautogui.pixel(1180, 340)
-                if r > 200 and g > 200 and b > 200: break
-                else: pyautogui.press('p')
-            pydirectinput.press(['up','up','up','up','up','enter'])
-            time.sleep(.5)
-            pydirectinput.press(['down','enter','enter'])
-            time.sleep(10)
-            pydirectinput.press(['p','right','right','right'])
-            time.sleep(2)
-            pydirectinput.press(['enter','enter','enter','p'])
-            time.sleep(1)
-            pydirectinput.press(['m','enter','enter'])
-            while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
-            pydirectinput.press('enter')
-            time.sleep(2)
-            pydirectinput.press('m')
-            time.sleep(5)
-    else:
-        while not END:
-            while True:
-                r,g,b = pyautogui.pixel(2325, 57)
-                if [r,g,b] == [255,255,0]: break
-                else: time.sleep(.1)
-            pydirectinput.press(['p','right','right','right'])
-            time.sleep(2)
-            pydirectinput.press(['enter','enter','enter','enter'])
-            time.sleep(1)
-            pydirectinput.press('enter')
-            while True:
-                pydirectinput.press('up')
-                r,g,b = pyautogui.pixel(2285, 1150)
-                if [r,g,b] == [255,0,0]: break
-                else: time.sleep(.1)
-            pydirectinput.press(['esc','up','enter','enter','enter'])
-
+# def gtaclubber():
+#     pydirectinput.PAUSE = .2
+#     time.sleep(5)
+#     owner = True
+#     if owner:
+#         while not END:
+#             while True:
+#                 time.sleep(1)
+#                 pydirectinput.press('p')
+#                 time.sleep(1.5)
+#                 pydirectinput.press(['right','enter'])
+#                 time.sleep(1)
+#                 r,g,b = pyautogui.pixel(1180, 340)
+#                 if r > 200 and g > 200 and b > 200: break
+#                 else: pyautogui.press('p')
+#             pydirectinput.press(['up','up','up','up','up','enter'])
+#             time.sleep(.5)
+#             pydirectinput.press(['down','enter','enter'])
+#             time.sleep(10)
+#             pydirectinput.press(['p','right','right','right'])
+#             time.sleep(2)
+#             pydirectinput.press(['enter','enter','enter','p'])
+#             time.sleep(1)
+#             pydirectinput.press(['m','enter','enter'])
+#             while pyautogui.pixel(633, 224)[0] < 50: time.sleep(.1)
+#             pydirectinput.press('enter')
+#             time.sleep(2)
+#             pydirectinput.press('m')
+#             time.sleep(5)
+#     else:
+#         while not END:
+#             while True:
+#                 r,g,b = pyautogui.pixel(2325, 57)
+#                 if [r,g,b] == [255,255,0]: break
+#                 else: time.sleep(.1)
+#             pydirectinput.press(['p','right','right','right'])
+#             time.sleep(2)
+#             pydirectinput.press(['enter','enter','enter','enter'])
+#             time.sleep(1)
+#             pydirectinput.press('enter')
+#             while True:
+#                 pydirectinput.press('up')
+#                 r,g,b = pyautogui.pixel(2285, 1150)
+#                 if [r,g,b] == [255,0,0]: break
+#                 else: time.sleep(.1)
+#             pydirectinput.press(['esc','up','enter','enter','enter'])
 
 def mouseCursorInfo():
     while not END:
@@ -640,7 +644,7 @@ else:
     print("spam <key> <trigger key>: Spam key on trigger key hold")
     print("gta: gta quick keys")
     print("gtaafk: claim business earnings afk")
-    print("bl3: reset helper")
+    # print("bl3: reset helper")
     print("core <app> <count>: Core Reduce")
 
     game = input().strip().split()
@@ -667,21 +671,21 @@ elif game[0] == "spam" and len(game) == 3: spammer(game[1],game[2])
 elif game[0] == "gta": gta_handler()
 elif game[0] == "gtaafk": gtaafk()
 # elif game[0] == "golfta": golfta()
-elif game[0] == "gtaclubber": gtaclubber()
-elif game[0] == "bl3": bl3_farmer()
-elif game[0] == "core":
-    if len(game) == 1:
-        try:
-            gamesList = [ 'GTA5',
-                          'HogwartsLegacy',
-                          'Overwatch2',
-                          'Valorant',
-                          'Borderlands3',
-                          'Witcher3',
-                          'Minecraft',
-                          ]
-            for gameName in gamesList: core_reduce(gameName,16)
-            core_reduce('Cyberpunk2077',18)
-        except: pass
-    else: core_reduce(game[1],game[2])
+# elif game[0] == "gtaclubber": gtaclubber()
+# elif game[0] == "bl3": bl3_farmer()
+# elif game[0] == "core":
+#     if len(game) == 1:
+#         try:
+#             gamesList = [ 'GTA5',
+#                           'HogwartsLegacy',
+#                           'Overwatch2',
+#                           'Valorant',
+#                           'Borderlands3',
+#                           'Witcher3',
+#                           'Minecraft',
+#                           ]
+#             for gameName in gamesList: core_reduce(gameName,16)
+#             core_reduce('Cyberpunk2077',18)
+#         except: pass
+#     else: core_reduce(game[1],game[2])
 else: print("Not an option")
