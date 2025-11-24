@@ -572,23 +572,19 @@ def gtaafk():
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
         if Hangar:
             for _ in range(50):
-                pydirectinput.PAUSE = .1
+                pydirectinput.PAUSE = .06
                 pydirectinput.press('esc')
                 while True:
-                    for _ in range(5):
-                        time.sleep(.3)
-                        pydirectinput.press('right')
-                        time.sleep(.65)
-                        pydirectinput.press('enter')
-                        time.sleep(.5)
-                        pydirectinput.PAUSE = .05
-                        pydirectinput.press(['up', 'up', 'up', 'up', 'up'])
-                        if pyautogui.pixel(1180,940) == (240,240,240): break
-                        pydirectinput.press(['esc','left'])
-                    else:
-                        pydirectinput.press('esc')
-                        continue
-                    break
+                    time.sleep(.3)
+                    pydirectinput.press('right')
+                    time.sleep(.65)
+                    pydirectinput.press('enter')
+                    time.sleep(.5)
+                    pydirectinput.PAUSE = .05
+                    pydirectinput.press(['up', 'up', 'up', 'up', 'up'])
+                    if pyautogui.pixel(1180,940) == (240,240,240): break
+                    pydirectinput.press(['esc','left'])
+                    if pyautogui.pixel(1080,270) != (240,240,240): pydirectinput.press('left')
                 pydirectinput.press('enter')
                 pydirectinput.PAUSE = .1
                 time.sleep(.35)
