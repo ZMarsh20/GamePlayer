@@ -223,7 +223,7 @@ def gta_handler():
                 if key == 'v': val += 3
                 pydirectinput.press(['down' for _ in range(val)])
             elif key in 'fhno':
-                val = 4
+                val = 5
                 if key in 'hfn': val += 1
                 if key in 'hf': val += 5
                 if key == 'f': val += 3
@@ -522,11 +522,12 @@ def spammer(key, stopKey):
         if K == stopKey: pydirectinput.press(key)
 
 def gtaafk():
-    time.sleep(5)
+    time.sleep(3)
     pydirectinput.PAUSE = .1
     Casino = False
     Claim = True
     Bunker = False
+    Hanger = True
     while True:
         if Casino:
             pydirectinput.press(['e','tab','enter','enter'])
@@ -569,6 +570,78 @@ def gtaafk():
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
             time.sleep(.1)
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
+        if Hanger:
+            for _ in range(50):
+                pydirectinput.PAUSE = .1
+                pydirectinput.press('esc')
+                while True:
+                    time.sleep(.3)
+                    pydirectinput.press('right')
+                    time.sleep(.65)
+                    pydirectinput.press('enter')
+                    time.sleep(.5)
+                    pydirectinput.PAUSE = .05
+                    pydirectinput.press(['up', 'up', 'up', 'up', 'up'])
+                    if pyautogui.pixel(1180,940) == (240,240,240): break
+                    pydirectinput.press(['esc','left'])
+                pydirectinput.press('enter')
+                pydirectinput.PAUSE = .1
+                time.sleep(.35)
+                while pyautogui.pixel(1180,400) != (240,240,240):
+                    pydirectinput.press('down')
+                    time.sleep(.1)
+                pydirectinput.press(['enter', 'enter'])
+                time.sleep(17)
+                pydirectinput.keyDown('w')
+                time.sleep(.2)
+                for _ in range(5):
+                    pydirectinput.keyDown('a')
+                    time.sleep(.2)
+                    pydirectinput.keyUp('a')
+                time.sleep(.8)
+                pydirectinput.keyUp('w')
+                pydirectinput.keyDown('d')
+                pydirectinput.keyDown('s')
+                time.sleep(3)
+                pydirectinput.keyUp('d')
+                pydirectinput.keyUp('s')
+                pydirectinput.keyDown('w')
+                time.sleep(.3)
+                pydirectinput.keyUp('w')
+                pydirectinput.keyDown('d')
+                time.sleep(3)
+                pydirectinput.keyUp('d')
+                pydirectinput.keyDown('s')
+                time.sleep(2)
+                pydirectinput.keyUp('s')
+                pydirectinput.keyDown('a')
+                time.sleep(3)
+                pydirectinput.keyUp('a')
+                pydirectinput.keyDown('w')
+                time.sleep(.2)
+                pydirectinput.keyDown('d')
+                time.sleep(1)
+                pydirectinput.keyUp('w')
+                time.sleep(2)
+                pydirectinput.keyUp('d')
+                pydirectinput.keyDown('w')
+                time.sleep(1.5)
+                pydirectinput.keyUp('w')
+                pydirectinput.keyDown('a')
+                time.sleep(.3)
+                pydirectinput.keyUp('a')
+                pydirectinput.keyDown('w')
+                time.sleep(2.1)
+                pydirectinput.keyUp('w')
+                pydirectinput.keyDown('d')
+                time.sleep(1.2)
+                pydirectinput.keyUp('d')
+                pydirectinput.keyDown('w')
+                time.sleep(.15)
+                pydirectinput.keyUp('w')
+                time.sleep(.5)
+                pydirectinput.press(['e','enter','enter'])
+            continue
 
         for _ in range(50):
             time.sleep(60)
@@ -642,7 +715,7 @@ def mouseCursorInfo():
     while not END:
         x, y = pyautogui.position()
         r, g, b = pyautogui.pixel(x, y)
-        print(f"Mouse at: ({x}, {y}) | RGB Color: ({r}, {g}, {b})",end='\r')
+        print(f"Mouse at: ({x}, {y}) | RGB Color: ({r}, {g}, {b})           ",end='\r')
         time.sleep(0.1)
 
 def wiggle():
