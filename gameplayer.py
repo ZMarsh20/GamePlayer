@@ -575,15 +575,20 @@ def gtaafk():
                 pydirectinput.PAUSE = .1
                 pydirectinput.press('esc')
                 while True:
-                    time.sleep(.3)
-                    pydirectinput.press('right')
-                    time.sleep(.65)
-                    pydirectinput.press('enter')
-                    time.sleep(.5)
-                    pydirectinput.PAUSE = .05
-                    pydirectinput.press(['up', 'up', 'up', 'up', 'up'])
-                    if pyautogui.pixel(1180,940) == (240,240,240): break
-                    pydirectinput.press(['esc','left'])
+                    for _ in range(5):
+                        time.sleep(.3)
+                        pydirectinput.press('right')
+                        time.sleep(.65)
+                        pydirectinput.press('enter')
+                        time.sleep(.5)
+                        pydirectinput.PAUSE = .05
+                        pydirectinput.press(['up', 'up', 'up', 'up', 'up'])
+                        if pyautogui.pixel(1180,940) == (240,240,240): break
+                        pydirectinput.press(['esc','left'])
+                    else:
+                        pydirectinput.press('esc')
+                        continue
+                    break
                 pydirectinput.press('enter')
                 pydirectinput.PAUSE = .1
                 time.sleep(.35)
