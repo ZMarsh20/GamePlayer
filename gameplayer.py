@@ -521,31 +521,59 @@ def spammer(key, stopKey):
         K = keyboard.read_key()
         if K == stopKey: pydirectinput.press(key)
 
+def newSession():
+    pydirectinput.PAUSE = .01
+    pydirectinput.press('esc')
+    while True:
+        time.sleep(.3)
+        pydirectinput.press('right')
+        time.sleep(.65)
+        pydirectinput.press('enter')
+        time.sleep(.5)
+        for i in range(5):
+            pydirectinput.press('up')
+            time.sleep(.5)
+        if pyautogui.pixel(1180, 1050) == (240, 240, 240): break
+        pydirectinput.press(['esc', 'left'])
+        time.sleep(.3)
+        if pyautogui.pixel(1080, 270) != (240, 240, 240):
+            pydirectinput.press('esc')
+            time.sleep(4)
+            pydirectinput.press('esc')
+    pydirectinput.press('enter')
+    time.sleep(.35)
+    while pyautogui.pixel(1180, 400) != (240, 240, 240):
+        pydirectinput.press('down')
+        time.sleep(.1)
+    pydirectinput.press(['enter', 'enter'])
+    time.sleep(17)
+
 def gtaafk():
     time.sleep(3)
     pydirectinput.PAUSE = .1
     Casino = False
-    Claim = True
+    Claim = False
     Bunker = False
     Hangar = True
+
     while True:
-        if Casino:
-            pydirectinput.press(['e','tab','enter','enter'])
-            time.sleep(1)
-            pydirectinput.press('esc')
         if Claim:
             pydirectinput.PAUSE = .2
             pydirectinput.press('up')
             time.sleep(.6)
             pydirectinput.press(['right', 'enter'])
             time.sleep(1)
-            pydirectinput.press(['enter','enter'])
+            pydirectinput.press(['enter', 'enter'])
             pydirectinput.PAUSE = .01
             for _ in range(8):
                 time.sleep(2)
-                pydirectinput.press(['down','enter'])
-            pydirectinput.press(['backspace','backspace'])
-        if Bunker:
+                pydirectinput.press(['down', 'enter'])
+            pydirectinput.press(['backspace', 'backspace'])
+        if Casino:
+            pydirectinput.press(['e','tab','enter','enter'])
+            time.sleep(1)
+            pydirectinput.press('esc')
+        elif Bunker:
             pydirectinput.press('e')
             time.sleep(5)
             pydirectinput.press('enter')
@@ -570,29 +598,10 @@ def gtaafk():
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
             time.sleep(.1)
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
-        if Hangar:
-            for _ in range(50):
-                pydirectinput.PAUSE = .06
-                pydirectinput.press('esc')
-                while True:
-                    time.sleep(.3)
-                    pydirectinput.press('right')
-                    time.sleep(.65)
-                    pydirectinput.press('enter')
-                    time.sleep(.5)
-                    pydirectinput.PAUSE = .05
-                    pydirectinput.press(['up', 'up', 'up', 'up', 'up'])
-                    if pyautogui.pixel(1180,940) == (240,240,240): break
-                    pydirectinput.press(['esc','left'])
-                    if pyautogui.pixel(1080,270) != (240,240,240): pydirectinput.press('left')
-                pydirectinput.press('enter')
+        elif Hangar:
+            for _ in range(4):
+                newSession()
                 pydirectinput.PAUSE = .1
-                time.sleep(.35)
-                while pyautogui.pixel(1180,400) != (240,240,240):
-                    pydirectinput.press('down')
-                    time.sleep(.1)
-                pydirectinput.press(['enter', 'enter'])
-                time.sleep(17)
                 pydirectinput.keyDown('w')
                 time.sleep(.2)
                 for _ in range(5):
@@ -618,6 +627,7 @@ def gtaafk():
                 pydirectinput.keyDown('a')
                 time.sleep(3)
                 pydirectinput.keyUp('a')
+                time.sleep(.1)
                 pydirectinput.keyDown('w')
                 time.sleep(.2)
                 pydirectinput.keyDown('d')
@@ -637,12 +647,23 @@ def gtaafk():
                 pydirectinput.keyDown('d')
                 time.sleep(1.2)
                 pydirectinput.keyUp('d')
-                pydirectinput.keyDown('w')
-                time.sleep(.15)
-                pydirectinput.keyUp('w')
-                time.sleep(.5)
-                pydirectinput.press(['e','enter','enter'])
-            continue
+                for _ in range(3):
+                    pydirectinput.keyDown('w')
+                    time.sleep(.15)
+                    pydirectinput.keyUp('w')
+                    time.sleep(.5)
+                    pydirectinput.press(['e','enter','enter'])
+                    time.sleep(.2)
+            pydirectinput.PAUSE = .01
+            pydirectinput.press('m')
+            time.sleep(.3)
+            pydirectinput.press(['up','up','up','enter','left','m'])
+            time.sleep(2)
+            newSession()
+            pydirectinput.press('m')
+            time.sleep(.3)
+            pydirectinput.press(['up','up','up','enter','right','m'])
+            pydirectinput.PAUSE = .1
 
         for _ in range(50):
             time.sleep(60)
