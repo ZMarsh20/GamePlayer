@@ -527,7 +527,7 @@ def gtaafk():
     Casino = False
     Claim = True
     Bunker = False
-    Hanger = True
+    Hangar = True
     while True:
         if Casino:
             pydirectinput.press(['e','tab','enter','enter'])
@@ -570,7 +570,7 @@ def gtaafk():
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
             time.sleep(.1)
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
-        if Hanger:
+        if Hangar:
             for _ in range(50):
                 pydirectinput.PAUSE = .1
                 pydirectinput.press('esc')
