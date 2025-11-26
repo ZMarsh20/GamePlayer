@@ -11,7 +11,6 @@ def end(sig, frame):
 def gta_handler():
     global END
     needToType = False
-    paused = False
     while not END:
         key = keyboard.read_key()
         pydirectinput.PAUSE=0.025
@@ -531,7 +530,9 @@ def newSession():
         pydirectinput.press('enter')
         time.sleep(.5)
         for i in range(5):
-            pydirectinput.press('up')
+            pydirectinput.keyDown('up')
+            time.sleep(.05)
+            pydirectinput.keyUp('up')
             time.sleep(.5)
         if pyautogui.pixel(1180, 1050) == (240, 240, 240): break
         pydirectinput.press(['esc', 'left'])
@@ -542,9 +543,19 @@ def newSession():
             pydirectinput.press('esc')
     pydirectinput.press('enter')
     time.sleep(.35)
-    while pyautogui.pixel(1180, 400) != (240, 240, 240):
-        pydirectinput.press('down')
-        time.sleep(.1)
+    for _ in range(10):
+        pydirectinput.keyDown('down')
+        time.sleep(.05)
+        pydirectinput.keyUp('down')
+        time.sleep(.5)
+        if pyautogui.pixel(1180, 400) == (240, 240, 240): break
+    else:
+        pydirectinput.press('esc')
+        time.sleep(4)
+        pydirectinput.press('esc')
+        newSession()
+        return
+    time.sleep(.1)
     pydirectinput.press(['enter', 'enter'])
     time.sleep(17)
 
@@ -552,7 +563,7 @@ def gtaafk():
     time.sleep(3)
     pydirectinput.PAUSE = .1
     Casino = False
-    Claim = False
+    Claim = True
     Bunker = False
     Hangar = True
 
@@ -599,7 +610,7 @@ def gtaafk():
             time.sleep(.1)
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
         elif Hangar:
-            for _ in range(4):
+            while True:
                 newSession()
                 pydirectinput.PAUSE = .1
                 pydirectinput.keyDown('w')
@@ -616,7 +627,7 @@ def gtaafk():
                 pydirectinput.keyUp('d')
                 pydirectinput.keyUp('s')
                 pydirectinput.keyDown('w')
-                time.sleep(.3)
+                time.sleep(.5)
                 pydirectinput.keyUp('w')
                 pydirectinput.keyDown('d')
                 time.sleep(3)
@@ -652,17 +663,31 @@ def gtaafk():
                     time.sleep(.15)
                     pydirectinput.keyUp('w')
                     time.sleep(.5)
-                    pydirectinput.press(['e','enter','enter'])
+                    pydirectinput.press('e')
                     time.sleep(.2)
-            pydirectinput.PAUSE = .01
-            pydirectinput.press('m')
-            time.sleep(.3)
-            pydirectinput.press(['up','up','up','enter','left','m'])
-            time.sleep(2)
+                    if pyautogui.pixel(850,60) == (0,0,0):
+                        pydirectinput.press(['enter','enter'])
+                        break
+                else: continue
+                break
+            def changespawn(direction):
+                pydirectinput.PAUSE = .01
+                while True:
+                    time.sleep(1)
+                    pydirectinput.press('m')
+                    time.sleep(.3)
+                    for _ in range(3):
+                        pydirectinput.keyDown('up')
+                        time.sleep(.05)
+                        pydirectinput.keyUp('up')
+                        time.sleep(.1)
+                    if sum(pyautogui.pixel(800,425)) > 550: break
+                    else: pydirectinput.press('m')
+                pydirectinput.press(['enter',direction,'m'])
+                time.sleep(2)
+            changespawn('left')
             newSession()
-            pydirectinput.press('m')
-            time.sleep(.3)
-            pydirectinput.press(['up','up','up','enter','right','m'])
+            changespawn('right')
             pydirectinput.PAUSE = .1
 
         for _ in range(50):
@@ -748,6 +773,22 @@ def wiggle():
         pydirectinput.move(-20, 0)
         time.sleep(5)
 
+def vipWait():
+    time.sleep(5)
+    while True:
+        key = keyboard.read_key()
+        if key == 'z':
+            newSession()
+            time.sleep(5*60)
+            pydirectinput.press('up')
+            time.sleep(.6)
+            pydirectinput.PAUSE=.2
+            pydirectinput.press(['right','up','enter','up','enter'])
+            pydirectinput.PAUSE=0.01
+            time.sleep(5)
+            pydirectinput.press('enter')
+
+
 if __name__ == '__main__':
     if '-i' in sys.argv: game = sys.argv[2:]
     else:
@@ -791,6 +832,7 @@ if __name__ == '__main__':
     elif game[0] == "spam" and len(game) == 3: spammer(game[1],game[2])
     elif game[0] == "gta": gta_handler()
     elif game[0] == "gtaafk": run_gtaafk()
+    elif game[0] == "vip": vipWait()
     # elif game[0] == "golfta": golfta()
     # elif game[0] == "gtaclubber": gtaclubber()
     # elif game[0] == "bl3": bl3_farmer()
