@@ -191,6 +191,8 @@ def gta_handler():
             pydirectinput.PAUSE=0.01
             time.sleep(5)
             pydirectinput.press(['down','enter'])
+        elif key == ":":
+            pydirectinput.press(['m','enter','up','up','up','enter','up','up','enter'])
 
         elif key == "n":
             time.sleep(.25)
@@ -210,7 +212,7 @@ def gta_handler():
             time.sleep(.1)
             pydirectinput.press('enter')
             time.sleep(.6)
-            pydirectinput.press(['up', 'up', 'up'])
+            pydirectinput.press(['up', 'up', 'up','up'])
             time.sleep(.1)
             pydirectinput.press('enter')
             time.sleep(.25)
@@ -221,10 +223,11 @@ def gta_handler():
                 if key in 'cv': val += 5
                 if key == 'v': val += 3
                 pydirectinput.press(['down' for _ in range(val)])
-            elif key in 'fhno':
+            elif key in 'fhnom':
                 val = 5
-                if key in 'hfn': val += 1
-                if key in 'hf': val += 5
+                if key in 'hfnm': val += 1
+                if key in 'hfm': val += 4
+                if key in 'hf': val += 2
                 if key == 'f': val += 3
                 pydirectinput.press(['up' for _ in range(val)])
 
@@ -527,20 +530,20 @@ def newSession():
         time.sleep(.3)
         pydirectinput.press('right')
         time.sleep(.65)
+        if pyautogui.pixel(1190, 270) != (240, 240, 240):
+            pydirectinput.press('esc')
+            time.sleep(5)
+            pydirectinput.press('esc')
+            continue
         pydirectinput.press('enter')
         time.sleep(.5)
         for i in range(5):
             pydirectinput.keyDown('up')
             time.sleep(.05)
             pydirectinput.keyUp('up')
-            time.sleep(.5)
+            time.sleep(1)
         if pyautogui.pixel(1180, 1050) == (240, 240, 240): break
         pydirectinput.press(['esc', 'left'])
-        time.sleep(.3)
-        if pyautogui.pixel(1080, 270) != (240, 240, 240):
-            pydirectinput.press('esc')
-            time.sleep(4)
-            pydirectinput.press('esc')
     pydirectinput.press('enter')
     time.sleep(.35)
     for _ in range(10):
@@ -556,30 +559,82 @@ def newSession():
         newSession()
         return
     time.sleep(.1)
-    pydirectinput.press(['enter', 'enter'])
+    pydirectinput.press(['enter', 'enter','enter'])
     time.sleep(17)
 
 def gtaafk():
     time.sleep(3)
     pydirectinput.PAUSE = .1
     Casino = False
-    Claim = True
+    Claim = False
     Bunker = False
-    Hangar = True
+    Staff = True
+    # Hangar = True
 
     while True:
-        if Claim:
-            pydirectinput.PAUSE = .2
-            pydirectinput.press('up')
-            time.sleep(.6)
-            pydirectinput.press(['right', 'enter'])
-            time.sleep(1)
-            pydirectinput.press(['enter', 'enter'])
-            pydirectinput.PAUSE = .01
-            for _ in range(8):
-                time.sleep(2)
-                pydirectinput.press(['down', 'enter'])
-            pydirectinput.press(['backspace', 'backspace'])
+        if Claim or Staff:
+            while True:
+                pydirectinput.PAUSE = .2
+                pydirectinput.press('up')
+                time.sleep(.6)
+                pydirectinput.press(['right', 'enter'])
+                time.sleep(1)
+                if Claim:
+                    pydirectinput.press(['enter','enter'])
+                    pydirectinput.PAUSE = .01
+                    for _ in range(8):
+                        time.sleep(2)
+                        pydirectinput.press(['down', 'enter'])
+                    pydirectinput.press('backspace')
+                    time.sleep(.5)
+                    pydirectinput.press(['backspace','backspace'])
+                if Staff:
+                    pydirectinput.PAUSE = .01
+                    for _ in range(20):
+                        pydirectinput.keyDown('up')
+                        time.sleep(.05)
+                        pydirectinput.keyUp('up')
+                        if sum(pyautogui.pixel(840, 490)) > 550: break
+                        time.sleep(.2)
+                    else:
+                        pydirectinput.press(['backspace','backspace','backspace'])
+                        continue
+                    pydirectinput.press('enter')
+                    time.sleep(.5)
+                    pydirectinput.press('enter')
+                    time.sleep(.2)
+                    for _ in range(20):
+                        pydirectinput.keyDown('down')
+                        time.sleep(.05)
+                        pydirectinput.keyUp('down')
+                        if sum(pyautogui.pixel(840, 300)) > 550: break
+                        time.sleep(.2)
+                    else:
+                        pydirectinput.press(['backspace', 'backspace', 'backspace'])
+                        continue
+                    pydirectinput.press('enter')
+                    time.sleep(.5)
+                    for _ in range(5):
+                        pydirectinput.press('enter')
+                        time.sleep(1)
+                        pydirectinput.keyDown('down')
+                        time.sleep(.05)
+                        pydirectinput.keyUp('down')
+                        time.sleep(.2)
+                    pydirectinput.press('backspace')
+                    time.sleep(.5)
+                    pydirectinput.press(['down', 'enter'])
+                    time.sleep(.5)
+                    for _ in range(2):
+                        pydirectinput.press('enter')
+                        time.sleep(1)
+                        pydirectinput.keyDown('down')
+                        time.sleep(.05)
+                        pydirectinput.keyUp('down')
+                        time.sleep(.2)
+                    pydirectinput.press(['backspace','backspace'])
+                pydirectinput.press(['backspace','backspace'])
+                break
         if Casino:
             pydirectinput.press(['e','tab','enter','enter'])
             time.sleep(1)
@@ -609,86 +664,93 @@ def gtaafk():
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
             time.sleep(.1)
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
-        elif Hangar:
-            while True:
-                newSession()
-                pydirectinput.PAUSE = .1
-                pydirectinput.keyDown('w')
-                time.sleep(.2)
-                for _ in range(5):
-                    pydirectinput.keyDown('a')
-                    time.sleep(.2)
-                    pydirectinput.keyUp('a')
-                time.sleep(.8)
-                pydirectinput.keyUp('w')
-                pydirectinput.keyDown('d')
-                pydirectinput.keyDown('s')
-                time.sleep(3)
-                pydirectinput.keyUp('d')
-                pydirectinput.keyUp('s')
-                pydirectinput.keyDown('w')
-                time.sleep(.5)
-                pydirectinput.keyUp('w')
-                pydirectinput.keyDown('d')
-                time.sleep(3)
-                pydirectinput.keyUp('d')
-                pydirectinput.keyDown('s')
-                time.sleep(2)
-                pydirectinput.keyUp('s')
-                pydirectinput.keyDown('a')
-                time.sleep(3)
-                pydirectinput.keyUp('a')
-                time.sleep(.1)
-                pydirectinput.keyDown('w')
-                time.sleep(.2)
-                pydirectinput.keyDown('d')
-                time.sleep(1)
-                pydirectinput.keyUp('w')
-                time.sleep(2)
-                pydirectinput.keyUp('d')
-                pydirectinput.keyDown('w')
-                time.sleep(1.5)
-                pydirectinput.keyUp('w')
-                pydirectinput.keyDown('a')
-                time.sleep(.3)
-                pydirectinput.keyUp('a')
-                pydirectinput.keyDown('w')
-                time.sleep(2.1)
-                pydirectinput.keyUp('w')
-                pydirectinput.keyDown('d')
-                time.sleep(1.2)
-                pydirectinput.keyUp('d')
-                for _ in range(3):
-                    pydirectinput.keyDown('w')
-                    time.sleep(.15)
-                    pydirectinput.keyUp('w')
-                    time.sleep(.5)
-                    pydirectinput.press('e')
-                    time.sleep(.2)
-                    if pyautogui.pixel(850,60) == (0,0,0):
-                        pydirectinput.press(['enter','enter'])
-                        break
-                else: continue
-                break
-            def changespawn(direction):
-                pydirectinput.PAUSE = .01
-                while True:
-                    time.sleep(1)
-                    pydirectinput.press('m')
-                    time.sleep(.3)
-                    for _ in range(3):
-                        pydirectinput.keyDown('up')
-                        time.sleep(.05)
-                        pydirectinput.keyUp('up')
-                        time.sleep(.1)
-                    if sum(pyautogui.pixel(800,425)) > 550: break
-                    else: pydirectinput.press('m')
-                pydirectinput.press(['enter',direction,'m'])
-                time.sleep(2)
-            changespawn('left')
-            newSession()
-            changespawn('right')
-            pydirectinput.PAUSE = .1
+        # elif Hangar:
+        #     while True:
+        #         newSession()
+        #         pydirectinput.PAUSE = .1
+        #         pydirectinput.keyDown('w')
+        #         time.sleep(.2)
+        #         for _ in range(5):
+        #             pydirectinput.keyDown('a')
+        #             time.sleep(.2)
+        #             pydirectinput.keyUp('a')
+        #         time.sleep(.65)
+        #         pydirectinput.keyUp('w')
+        #         pydirectinput.keyDown('d')
+        #         pydirectinput.keyDown('s')
+        #         time.sleep(3)
+        #         pydirectinput.keyUp('d')
+        #         pydirectinput.keyUp('s')
+        #         pydirectinput.keyDown('w')
+        #         time.sleep(.45)
+        #         pydirectinput.keyUp('w')
+        #         pydirectinput.keyDown('d')
+        #         time.sleep(3)
+        #         pydirectinput.keyUp('d')
+        #         pydirectinput.keyDown('s')
+        #         time.sleep(2)
+        #         pydirectinput.keyUp('s')
+        #         pydirectinput.keyDown('a')
+        #         time.sleep(3)
+        #         pydirectinput.keyUp('a')
+        #         time.sleep(.1)
+        #         pydirectinput.keyDown('w')
+        #         time.sleep(.2)
+        #         pydirectinput.keyDown('d')
+        #         time.sleep(1)
+        #         pydirectinput.keyUp('w')
+        #         time.sleep(2)
+        #         pydirectinput.keyUp('d')
+        #         pydirectinput.keyDown('w')
+        #         time.sleep(1.5)
+        #         pydirectinput.keyUp('w')
+        #         pydirectinput.keyDown('a')
+        #         time.sleep(.3)
+        #         pydirectinput.keyUp('a')
+        #         pydirectinput.keyDown('w')
+        #         time.sleep(2.1)
+        #         pydirectinput.keyUp('w')
+        #         pydirectinput.keyDown('d')
+        #         time.sleep(1.2)
+        #         pydirectinput.keyUp('d')
+        #         for _ in range(3):
+        #             pydirectinput.keyDown('w')
+        #             time.sleep(.15)
+        #             pydirectinput.keyUp('w')
+        #             time.sleep(.5)
+        #             pydirectinput.press('e')
+        #             time.sleep(.2)
+        #             if pyautogui.pixel(850,60) == (0,0,0):
+        #                 pydirectinput.press(['enter','enter'])
+        #                 break
+        #         else: continue
+        #         break
+        #     def changespawn(direction):
+        #         pydirectinput.PAUSE = .01
+        #         while True:
+        #             time.sleep(1)
+        #             pydirectinput.press('m')
+        #             time.sleep(.3)
+        #             for _ in range(3):
+        #                 pydirectinput.keyDown('up')
+        #                 time.sleep(.05)
+        #                 pydirectinput.keyUp('up')
+        #                 time.sleep(.1)
+        #             if sum(pyautogui.pixel(800,425)) > 550: break
+        #             else: pydirectinput.press('m')
+        #         time.sleep(.5)
+        #         pydirectinput.press('enter')
+        #         time.sleep(.5)
+        #         pydirectinput.keyDown(direction)
+        #         time.sleep(.01)
+        #         pydirectinput.keyUp(direction)
+        #         time.sleep(.5)
+        #         pydirectinput.press('m')
+        #         time.sleep(2)
+        #     changespawn('left')
+        #     newSession()
+        #     changespawn('right')
+        #     pydirectinput.PAUSE = .1
 
         for _ in range(50):
             time.sleep(60)
