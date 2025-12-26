@@ -8,21 +8,55 @@ def end(sig, frame):
     END = True
     print('ending...')
 
-def gta_handler():
+def booter():
+    x,y = 3200,650
+    while pyautogui.pixel(x+10,y+10) == (0,0,0):
+        pydirectinput.leftClick(x,y)
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, x, y)
+        time.sleep(.1)
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, x, y)
+        time.sleep(.5)
+    pydirectinput.PAUSE=0.025
+    time.sleep(2)
+    for _ in range(2):
+        pydirectinput.press('e')
+        time.sleep(.2)
+    pydirectinput.press('enter')
+    while pyautogui.pixel(x,y) == (0,0,0): time.sleep(.5)
+    time.sleep(4)
+    pydirectinput.press('esc')
+    time.sleep(.5)
+    pydirectinput.press(['right' for _ in range(5)])
+    time.sleep(.5)
+    pydirectinput.press('enter')
+    time.sleep(2)
+    pydirectinput.press('up')
+    def enter():
+        pydirectinput.keyDown('enter')
+        time.sleep(.3)
+        pydirectinput.keyUp('enter')
+    enter()
+    time.sleep(.5)
+    pydirectinput.press('down')
+    enter()
+    time.sleep(.5)
+    pydirectinput.press('enter')
+    exit()
+def gta_handler(boot=False):
     global END
+
+    if boot:
+        execute_program_process = Process(target=booter)
+        execute_program_process.start()
+        while True:
+            if keyboard.is_pressed('ctrl+c') or not execute_program_process.is_alive():
+                execute_program_process.terminate()
+                break
+
     while not END:
         pydirectinput.PAUSE=0.025
         key = keyboard.read_key()
         if pygetwindow.getActiveWindowTitle() != 'Grand Theft Auto V': continue
-        if key in ['enter','backspace','esc']:
-            wait = .15 if key == 'enter' else .5
-            start_time = time.time()
-            while keyboard.is_pressed(key):
-                if time.time() - start_time >= wait:
-                    pydirectinput.keyDown(key)
-                    time.sleep(.05)
-                    pydirectinput.keyUp(key)
-                    time.sleep(.05)
         def gtapause(m):
             time.sleep(5)
             pydirectinput.press('esc')
@@ -905,7 +939,7 @@ if __name__ == '__main__':
     elif game[0] == "8": mouseCursorInfo()
     elif game[0] == "repeat" and len(game) == 4: repeater(game[1],float(game[2]),int(game[3]))
     elif game[0] == "spam" and len(game) == 3: spammer(game[1],game[2])
-    elif game[0] == "gta": gta_handler()
+    elif game[0] == "gta": gta_handler(('boot' in game))
     elif game[0] == "gtaafk": run_gtaafk()
     elif game[0] == "vip": vipWait()
     # elif game[0] == "golfta": golfta()
