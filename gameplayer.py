@@ -1,4 +1,4 @@
-import pyautogui, pydirectinput, time, signal, keyboard, sys, os, threading, queue, psutil, win32api, win32con
+import pyautogui, pydirectinput, time, signal, keyboard, sys, os, threading, queue, psutil, win32api, win32con, pygetwindow
 from multiprocessing import Process
 
 END = False
@@ -10,14 +10,19 @@ def end(sig, frame):
 
 def gta_handler():
     global END
-    needToType = False
     while not END:
-        key = keyboard.read_key()
         pydirectinput.PAUSE=0.025
-        if key == '=':
-            needToType = not needToType
-            time.sleep(1)
-        if needToType: continue
+        key = keyboard.read_key()
+        if pygetwindow.getActiveWindowTitle() != 'Grand Theft Auto V': continue
+        if key in ['enter','backspace','esc']:
+            wait = .15 if key == 'enter' else .5
+            start_time = time.time()
+            while keyboard.is_pressed(key):
+                if time.time() - start_time >= wait:
+                    pydirectinput.keyDown(key)
+                    time.sleep(.05)
+                    pydirectinput.keyUp(key)
+                    time.sleep(.05)
         def gtapause(m):
             time.sleep(5)
             pydirectinput.press('esc')
@@ -144,9 +149,9 @@ def gta_handler():
         #             pydirectinput.keyDown('del')
         #             time.sleep(2)
         #             pydirectinput.keyUp('del')
-        #             time.sleep(15)
+        #             time.sleep(15)==
 
-        if key in "hHjJkKlC'-":
+        if key in "hHjJkKlC'-=+":
             pydirectinput.press(['m','down','down'])
             if key in "hjHJ":
                 pydirectinput.press(['down','enter','up'])
@@ -178,10 +183,16 @@ def gta_handler():
                     pydirectinput.press(['down','down','down','enter','down','down','down','left','left'])
                 pydirectinput.press(['enter','m'])
 
-            if key == '-':
-                pydirectinput.press(['down','down','enter','enter'])
-                for _ in range(8): pydirectinput.press(['left','up','enter','down'])
-                pydirectinput.press('m')
+            if key in '-=+':
+                pydirectinput.press(['down','down','enter'])
+                if key == '-':
+                    pydirectinput.press('enter')
+                    for _ in range(8): pydirectinput.press(['left','up','enter','down'])
+                    pydirectinput.press('m')
+                if key in '=+':
+                    pydirectinput.press(['down','down'])
+                    if sum(pyautogui.pixel(700,325)) < 500: pydirectinput.press('m')
+                    else: pydirectinput.press(['enter' for _ in range(10)])
 
         elif key == ";":
             pydirectinput.press('up')
@@ -191,8 +202,11 @@ def gta_handler():
             pydirectinput.PAUSE=0.01
             time.sleep(5)
             pydirectinput.press(['down','enter'])
-        elif key == ":":
-            pydirectinput.press(['m','enter','up','up','up','enter','up','up','enter'])
+        elif key in ":tT":
+            pydirectinput.press(['m','enter','up','up','up','enter'])
+            if key == ':': pydirectinput.press(['up','up','enter'])
+            if key in 'tT': pydirectinput.press(['down','down','down'])
+            if key == 't': pydirectinput.press('enter')
 
         elif key == "n":
             time.sleep(.25)
@@ -566,7 +580,7 @@ def gtaafk():
     time.sleep(3)
     pydirectinput.PAUSE = .1
     Casino = False
-    Claim = False
+    Claim = True
     Bunker = False
     Staff = True
     # Hangar = True
@@ -586,8 +600,7 @@ def gtaafk():
                         time.sleep(2)
                         pydirectinput.press(['down', 'enter'])
                     pydirectinput.press('backspace')
-                    time.sleep(.5)
-                    pydirectinput.press(['backspace','backspace'])
+                    time.sleep(1)
                 if Staff:
                     pydirectinput.PAUSE = .01
                     for _ in range(20):
@@ -614,7 +627,7 @@ def gtaafk():
                         continue
                     pydirectinput.press('enter')
                     time.sleep(.5)
-                    for _ in range(5):
+                    for _ in range(10):
                         pydirectinput.press('enter')
                         time.sleep(1)
                         pydirectinput.keyDown('down')
