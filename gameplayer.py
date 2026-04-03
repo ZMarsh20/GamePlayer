@@ -211,7 +211,7 @@ def gta_handler(boot=False):
             pydirectinput.click()
             exit()
         if key == '9':
-            newSession(2)
+            if pyautogui.pixel(3200,650) != (0,0,0): newSession(2)
             booter()
         if key == '0':
             time.sleep(.4)
