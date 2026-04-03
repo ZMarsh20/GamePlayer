@@ -1,2 +1,2 @@
 cd %~dp0
-python gameplayer.py %*
+start /affinity FFFF0000 python gameplayer.py %*

@@ -1,2 +1,2 @@
 cd %~dp0
-python gameplayer.py -i gta
+start /min /affinity FFFF0000 python gameplayer.py -i gta
