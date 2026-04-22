@@ -36,6 +36,7 @@ def booter():
     pydirectinput.press('enter')
     time.sleep(2)
     pydirectinput.press('up')
+    time.sleep(.5)
     def enter():
         pydirectinput.keyDown('enter')
         time.sleep(.3)
@@ -59,6 +60,7 @@ def gta_handler(boot=False):
     global END
 
     if boot:
+        time.sleep(60)
         execute_program_process = Process(target=booter)
         execute_program_process.start()
         while True:
@@ -91,54 +93,61 @@ def gta_handler(boot=False):
             #     if key == 'P':
             #         os.system('start /min cmd /c taskkill /f /im powershell.exe>nul')
             #         return
-        if key == 'p': gtapause("0")
-        if key == 'P': gtapause("gtaafk")
-        # if key == '}':
+        if key == 'P': gtapause("0")
+        # if key == 'P': gtapause("gtaafk")
+        # if key == '}': #vehicle cargo
         #     pydirectinput.PAUSE = 0.05
         #     pydirectinput.press(['enter','enter','enter','down','enter','esc','enter'
         #                             ,'enter','enter','enter','enter','esc','esc','esc'
         #                             ,'enter','enter','enter','enter','enter','down'
         #                             ,'enter','esc','esc','esc','esc','enter'])
         #     pydirectinput.PAUSE = 0.025
-        if key == '}': #Launch Cayo
-            pydirectinput.press(['e','e','right','enter','right','enter'])
-            time.sleep(1)
-            for _ in range(2):
-                pydirectinput.press(['up','enter'])
-                time.sleep(.2)
-            pydirectinput.press('enter')
-            time.sleep(5)
-            pydirectinput.press(['enter','enter','esc','down','enter','up','enter','esc','down','enter','enter','esc','down','enter','down','enter','esc','down','enter','enter','right','enter'])
-            time.sleep(.2)
-            pydirectinput.press('enter')
-        if key == '~': #Cut grate Cayo
-            order = [
-                ('d', [(.2, .19), (.2, .185), (.2, .17), (.2, .17), (.2, .17), (.2, .08)]),
-                ('s', [(0, .07), (.2, .2), (.2, .23), (.2, .2), (.2, .2), (.2, .2), (.2, .23), (.2, .08)]),
-                ('a', [(0, .07), (.2, .17), (.2, .185), (.2, .185), (.2, .18), (.2, .18), (.2, .07)]),
-                ('w', [(0, .05), (.2, .2), (.2, .23), (.2, .2), (.2, .19), (.2, .22), (.2, .24)])
-            ]
+        # if key == '}': #Launch Cayo
+        #     pydirectinput.press(['e','e','right','enter','right','enter'])
+        #     time.sleep(1)
+        #     for _ in range(2):
+        #         pydirectinput.press(['up','enter'])
+        #         time.sleep(.2)
+        #     pydirectinput.press('enter')
+        #     time.sleep(5)
+        #     pydirectinput.press(['enter','enter','esc','down','enter','up','enter','esc','down','enter','enter','esc','down','enter','down','enter','esc','down','enter','enter','right','enter'])
+        #     time.sleep(.2)
+        #     pydirectinput.press('enter')
+        if key in '~`': #paperbag+helmet
+            pydirectinput.press('m')
+            time.sleep(.1)
+            pydirectinput.press(['down','down','down','down','down','enter','down','enter','down','down','down'])
+            if key == '~': pydirectinput.press(['right','right','right','right'])
+            pydirectinput.press(['down','right','right','right','esc','m'])
 
-            pydirectinput.keyDown('w')
-            pydirectinput.keyDown('a')
-            time.sleep(.2)
-            pydirectinput.keyUp('w')
-            pydirectinput.keyUp('a')
-            pydirectinput.keyDown('d')
-            pydirectinput.keyDown('s')
-            time.sleep(.15)
-            pydirectinput.keyUp('s')
-            time.sleep(.04)
-            pydirectinput.keyUp('d')
-            pydirectinput.mouseDown()
-            for direction, ord in order:
-                for tim, timer in ord:
-                    time.sleep(tim)
-                    pydirectinput.keyDown(direction)
-                    time.sleep(timer)
-                    pydirectinput.keyUp(direction)
-            time.sleep(.3)
-            pydirectinput.mouseUp()
+        # if key == '~': #Cut grate Cayo
+        #     order = [
+        #         ('d', [(.2, .19), (.2, .185), (.2, .17), (.2, .17), (.2, .17), (.2, .08)]),
+        #         ('s', [(0, .07), (.2, .2), (.2, .23), (.2, .2), (.2, .2), (.2, .2), (.2, .23), (.2, .08)]),
+        #         ('a', [(0, .07), (.2, .17), (.2, .185), (.2, .185), (.2, .18), (.2, .18), (.2, .07)]),
+        #         ('w', [(0, .05), (.2, .2), (.2, .23), (.2, .2), (.2, .19), (.2, .22), (.2, .24)])
+        #     ]
+        #
+        #     pydirectinput.keyDown('w')
+        #     pydirectinput.keyDown('a')
+        #     time.sleep(.2)
+        #     pydirectinput.keyUp('w')
+        #     pydirectinput.keyUp('a')
+        #     pydirectinput.keyDown('d')
+        #     pydirectinput.keyDown('s')
+        #     time.sleep(.15)
+        #     pydirectinput.keyUp('s')
+        #     time.sleep(.04)
+        #     pydirectinput.keyUp('d')
+        #     pydirectinput.mouseDown()
+        #     for direction, ord in order:
+        #         for tim, timer in ord:
+        #             time.sleep(tim)
+        #             pydirectinput.keyDown(direction)
+        #             time.sleep(timer)
+        #             pydirectinput.keyUp(direction)
+        #     time.sleep(.3)
+        #     pydirectinput.mouseUp()
         # if key == '~': #wall buffer
         #     pydirectinput.PAUSE=.01
         #     pydirectinput.press(['q','up','up'])
@@ -160,7 +169,14 @@ def gta_handler(boot=False):
         #         time.sleep(1.5)
         #         pydirectinput.press('esc')
         #         time.sleep(2)
-
+        if key == '}': #insta-stop
+            pydirectinput.keyDown('altright')
+            pydirectinput.keyDown('f5')
+            time.sleep(.25)
+            pydirectinput.keyUp('altright')
+            pydirectinput.keyUp('f5')
+            time.sleep(.1)
+            pydirectinput.press('esc')
         if key == ']':
             pydirectinput.keyDown('shift')
             time.sleep(.5)
@@ -234,7 +250,7 @@ def gta_handler(boot=False):
             time.sleep(4)
             newSession()
 
-        if key in "hHjJkKlC'-=+":
+        if key in "hHjJkKlL{'-_=+":
             pydirectinput.press('m')
             time.sleep(.1)
             pydirectinput.press(['down','down'])
@@ -246,11 +262,12 @@ def gta_handler(boot=False):
                 if key == 'J': pydirectinput.press(['down','enter','down'])
                 pydirectinput.press('enter')
 
-            elif key in "Kkl'C":
+            elif key in "KklL'{":
                 if key in "'l": pydirectinput.press(['enter','down','down'])
                 if key == 'k': pydirectinput.press('enter')
-                if key == 'K':
-                    pydirectinput.press(['enter','down','left','enter'])
+                if key in 'KL':
+                    option = 'left' if key == 'K' else 'right'
+                    pydirectinput.press(['enter','down',option,'enter'])
                     continue
                 if key == "'":
                     for i in range(5): pydirectinput.press('right')
@@ -263,21 +280,21 @@ def gta_handler(boot=False):
                 elif key == "l":
                     pydirectinput.press(['down','down','down'])
 
-                elif key == 'C':
-                    time.sleep(2)
+                elif key == '{':
+                    if sum(pyautogui.pixel(447, 370)) > 350: pydirectinput.press('down')
                     pydirectinput.press(['down','down','down','enter','down','down','down','left'])
                 pydirectinput.press(['enter','m'])
 
-            if key in '-=+':
-                pydirectinput.press(['down','down','enter'])
-                if key == '-':
+            if key in '-=+_':
+                if sum(pyautogui.pixel(447,370)) < 350: pydirectinput.press('down')
+                pydirectinput.press(['down','enter'])
+                if key in '-_':
                     pydirectinput.press('enter')
-                    for _ in range(8): pydirectinput.press(['left','up','enter','down'])
-                    pydirectinput.press('m')
+                    for _ in range(6): pydirectinput.press('enter')
+                    pydirectinput.press(['up','enter','m'])
                 if key in '=+':
                     pydirectinput.press(['down','down'])
                     if sum(pyautogui.pixel(700,325)) < 500: pydirectinput.press('m')
-                    if key == '+': pydirectinput.press('up')
                     else: pydirectinput.press(['enter' for _ in range(10)])
 
         elif key == ";":
@@ -289,7 +306,11 @@ def gta_handler(boot=False):
             time.sleep(5)
             pydirectinput.press(['down','enter'])
         elif key in ":tT":
-            pydirectinput.press(['m','enter','up','up','up','enter'])
+            pydirectinput.press('m')
+            if sum(pyautogui.pixel(602,220)) > 350:
+                pydirectinput.press(['down','enter','enter','enter','enter'])
+                continue
+            pydirectinput.press(['enter','up','up','up','enter'])
             if key == ':': pydirectinput.press(['up','up','enter'])
             if key in 'tT': pydirectinput.press(['down','down','down'])
             if key == 'T': pydirectinput.press('enter')
@@ -328,8 +349,8 @@ def gta_handler(boot=False):
                 val = 5
                 if key in 'hfnm': val += 1
                 if key in 'hfm': val += 4
-                if key in 'hf': val += 2
-                if key == 'f': val += 4
+                if key in 'hf': val += 3
+                if key == 'f': val += 5
                 pydirectinput.press(['up' for _ in range(val)])
 
             while True:
