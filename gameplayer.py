@@ -47,6 +47,8 @@ def booter():
     enter()
     time.sleep(.5)
     pydirectinput.press('enter')
+    time.sleep(1)
+    pydirectinput.press('enter')
     return
 def cayoPlane():
     pydirectinput.keyDown('shift')
@@ -235,6 +237,7 @@ def gta_handler(boot=False):
             pydirectinput.click()
             exit()
         if key == '9':
+            pydirectinput.leftClick(3200,850)
             if pyautogui.pixel(3200,650) != (0,0,0): newSession(2)
             booter()
         if key == '0':
@@ -290,7 +293,10 @@ def gta_handler(boot=False):
                 pydirectinput.press(['down','enter'])
                 if key in '-_':
                     pydirectinput.press('enter')
-                    for _ in range(6): pydirectinput.press('enter')
+                    for _ in range(10):
+                        pydirectinput.press('left')
+                        if sum(pyautogui.pixel(920,228)) < 350: break
+                    else: continue
                     pydirectinput.press(['up','enter','m'])
                 if key in '=+':
                     pydirectinput.press(['down','down'])
@@ -421,6 +427,29 @@ def raceAndChase():
         time.sleep(40)
         pydirectinput.keyUp('shift')
         time.sleep(30)
+
+def adversary(side):
+    if side == 'two':
+        pass
+    else:
+        for _ in range(40):
+            pydirectinput.press(['down','down','left','down','down','down','down','enter'])
+            time.sleep(1)
+            pydirectinput.press(['up','enter'])
+            count = 0
+            while count < 3:
+                while pyautogui.pixel(3200,650) != (0, 0, 0):
+                    if count == 0: pydirectinput.press(['up','enter'])
+                    time.sleep(.2)
+                while pyautogui.pixel(3200, 650) == (0, 0, 0): time.sleep(.5)
+            time.sleep(5)
+            pydirectinput.press('enter')
+            time.sleep(1)
+            pydirectinput.press(['up','enter'])
+            while pyautogui.pixel(1830, 390) != (114, 204, 114): time.sleep(.5)
+
+
+
 
 def kittyClaw():
     global END
@@ -1071,6 +1100,7 @@ if __name__ == '__main__':
     elif game[0] == "spam" and len(game) == 3: spammer(game[1],game[2])
     elif game[0] == "gta": gta_handler(('boot' in game))
     elif game[0] == "gtaafk": run_gtaafk()
+    elif game[0] == "9": adversary('one')
     elif game[0] == "cayoPlane":
         execute_program_process = Process(target=cayoPlane)
         execute_program_process.start()
