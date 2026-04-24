@@ -429,6 +429,7 @@ def raceAndChase():
         time.sleep(30)
 
 def adversary(side):
+    time.sleep(5)
     if side == 'two':
         pass
     else:
@@ -442,6 +443,7 @@ def adversary(side):
                     if count == 0: pydirectinput.press(['up','enter'])
                     time.sleep(.2)
                 while pyautogui.pixel(3200, 650) == (0, 0, 0): time.sleep(.5)
+                count += 1
             time.sleep(5)
             pydirectinput.press('enter')
             time.sleep(1)
