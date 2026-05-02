@@ -53,9 +53,9 @@ def booter():
 def cayoPlane():
     pydirectinput.keyDown('shift')
     while True:
-        time.sleep(.5)
+        time.sleep(7)
         pydirectinput.keyDown('5')
-        time.sleep(.5)
+        time.sleep(.1)
         pydirectinput.keyUp('5')
 
 def gta_handler(boot=False):
@@ -104,17 +104,17 @@ def gta_handler(boot=False):
         #                             ,'enter','enter','enter','enter','enter','down'
         #                             ,'enter','esc','esc','esc','esc','enter'])
         #     pydirectinput.PAUSE = 0.025
-        # if key == '}': #Launch Cayo
-        #     pydirectinput.press(['e','e','right','enter','right','enter'])
-        #     time.sleep(1)
-        #     for _ in range(2):
-        #         pydirectinput.press(['up','enter'])
-        #         time.sleep(.2)
-        #     pydirectinput.press('enter')
-        #     time.sleep(5)
-        #     pydirectinput.press(['enter','enter','esc','down','enter','up','enter','esc','down','enter','enter','esc','down','enter','down','enter','esc','down','enter','enter','right','enter'])
-        #     time.sleep(.2)
-        #     pydirectinput.press('enter')
+        if key == '\\': #Launch Cayo
+            pydirectinput.press(['e','e','right','enter','right','enter'])
+            time.sleep(1)
+            for _ in range(2):
+                pydirectinput.press(['up','enter'])
+                time.sleep(.2)
+            pydirectinput.press('enter')
+            time.sleep(5)
+            pydirectinput.press(['enter','enter','esc','down','enter','up','enter','esc','down','enter','enter','esc','down','enter','down','enter','esc','down','enter','enter','right','enter'])
+            time.sleep(.2)
+            pydirectinput.press('enter')
         if key in '~`': #paperbag+helmet
             pydirectinput.press('m')
             time.sleep(.1)
@@ -122,34 +122,34 @@ def gta_handler(boot=False):
             if key == '~': pydirectinput.press(['right','right','right','right'])
             pydirectinput.press(['down','right','right','right','esc','m'])
 
-        # if key == '~': #Cut grate Cayo
-        #     order = [
-        #         ('d', [(.2, .19), (.2, .185), (.2, .17), (.2, .17), (.2, .17), (.2, .08)]),
-        #         ('s', [(0, .07), (.2, .2), (.2, .23), (.2, .2), (.2, .2), (.2, .2), (.2, .23), (.2, .08)]),
-        #         ('a', [(0, .07), (.2, .17), (.2, .185), (.2, .185), (.2, .18), (.2, .18), (.2, .07)]),
-        #         ('w', [(0, .05), (.2, .2), (.2, .23), (.2, .2), (.2, .19), (.2, .22), (.2, .24)])
-        #     ]
-        #
-        #     pydirectinput.keyDown('w')
-        #     pydirectinput.keyDown('a')
-        #     time.sleep(.2)
-        #     pydirectinput.keyUp('w')
-        #     pydirectinput.keyUp('a')
-        #     pydirectinput.keyDown('d')
-        #     pydirectinput.keyDown('s')
-        #     time.sleep(.15)
-        #     pydirectinput.keyUp('s')
-        #     time.sleep(.04)
-        #     pydirectinput.keyUp('d')
-        #     pydirectinput.mouseDown()
-        #     for direction, ord in order:
-        #         for tim, timer in ord:
-        #             time.sleep(tim)
-        #             pydirectinput.keyDown(direction)
-        #             time.sleep(timer)
-        #             pydirectinput.keyUp(direction)
-        #     time.sleep(.3)
-        #     pydirectinput.mouseUp()
+        if key == '|': #Cut grate Cayo
+            order = [
+                ('d', [(.2, .19), (.2, .185), (.2, .17), (.2, .17), (.2, .17), (.2, .08)]),
+                ('s', [(0, .07), (.2, .2), (.2, .23), (.2, .2), (.2, .2), (.2, .2), (.2, .23), (.2, .08)]),
+                ('a', [(0, .07), (.2, .17), (.2, .185), (.2, .185), (.2, .18), (.2, .18), (.2, .07)]),
+                ('w', [(0, .05), (.2, .2), (.2, .23), (.2, .2), (.2, .19), (.2, .22), (.2, .24)])
+            ]
+
+            pydirectinput.keyDown('w')
+            pydirectinput.keyDown('a')
+            time.sleep(.2)
+            pydirectinput.keyUp('w')
+            pydirectinput.keyUp('a')
+            pydirectinput.keyDown('d')
+            pydirectinput.keyDown('s')
+            time.sleep(.15)
+            pydirectinput.keyUp('s')
+            time.sleep(.04)
+            pydirectinput.keyUp('d')
+            pydirectinput.mouseDown()
+            for direction, ord in order:
+                for tim, timer in ord:
+                    time.sleep(tim)
+                    pydirectinput.keyDown(direction)
+                    time.sleep(timer-.003)
+                    pydirectinput.keyUp(direction)
+            time.sleep(.3)
+            pydirectinput.mouseUp()
         # if key == '~': #wall buffer
         #     pydirectinput.PAUSE=.01
         #     pydirectinput.press(['q','up','up'])
@@ -233,11 +233,10 @@ def gta_handler(boot=False):
             time.sleep(.5)
             continue
         if key == '6':
-            os.system('start "plane" /min cmd /c gameplayer.cmd -i cayoPlane')
+            os.system('start "plane" /min /affinity FFFF0000 python gameplayer.py -i cayoPlane')
             pydirectinput.click()
             exit()
         if key == '9':
-            pydirectinput.leftClick(3200,850)
             if pyautogui.pixel(3200,650) != (0,0,0): newSession(2)
             booter()
         if key == '0':
@@ -431,27 +430,41 @@ def raceAndChase():
 def adversary(side):
     time.sleep(5)
     if side == 'two':
-        pass
+        while True:
+            while pyautogui.pixel(1390,340) == (178,255,199): time.sleep(.5)
+            time.sleep(1.5)
+            pydirectinput.press(['up','enter'])
+            time.sleep(5)
+            pydirectinput.keyDown('s')
+            while pyautogui.pixel(1650,380) != (255,226,139): time.sleep(.1)
+            pydirectinput.keyUp('s')
+            time.sleep(12)
+            while pyautogui.pixel(910,550) != (255,255,255):
+                pydirectinput.press('enter')
+                time.sleep(1)
+            while pyautogui.pixel(910,550) == (255,255,255): time.sleep(.1)
+            time.sleep(1.5)
+            pydirectinput.press(['up','enter'])
+            while pyautogui.pixel(1390,340) != (178,255,199): time.sleep(.1)
     else:
-        for _ in range(40):
+        for i in range(25):
             pydirectinput.press(['down','down','left','down','down','down','down','enter'])
             time.sleep(1)
             pydirectinput.press(['up','enter'])
             count = 0
-            while count < 3:
+            while count < 2:
                 while pyautogui.pixel(3200,650) != (0, 0, 0):
-                    if count == 0: pydirectinput.press(['up','enter'])
-                    time.sleep(.2)
+                    if count == 0:
+                        pydirectinput.press(['up','enter'])
+                        time.sleep(1)
+                    time.sleep(.1)
                 while pyautogui.pixel(3200, 650) == (0, 0, 0): time.sleep(.5)
                 count += 1
             time.sleep(5)
             pydirectinput.press('enter')
-            time.sleep(1)
+            time.sleep(.5)
             pydirectinput.press(['up','enter'])
             while pyautogui.pixel(1830, 390) != (114, 204, 114): time.sleep(.5)
-
-
-
 
 def kittyClaw():
     global END
@@ -724,11 +737,11 @@ def newSession(x=5,direct='up'):
 def gtaafk():
     time.sleep(3)
     pydirectinput.PAUSE = .1
-    Casino = False
-    Claim = True
-    Pop = True
+    Casino = True
+    Claim = False
+    Pop = False
     Bunker = False
-    Staff = True
+    Staff = False
     # Hangar = True
     even = False
     while True:
@@ -1102,7 +1115,7 @@ if __name__ == '__main__':
     elif game[0] == "spam" and len(game) == 3: spammer(game[1],game[2])
     elif game[0] == "gta": gta_handler(('boot' in game))
     elif game[0] == "gtaafk": run_gtaafk()
-    elif game[0] == "9": adversary('one')
+    # elif game[0] == "9": adversary('one')
     elif game[0] == "cayoPlane":
         execute_program_process = Process(target=cayoPlane)
         execute_program_process.start()
@@ -1110,7 +1123,7 @@ if __name__ == '__main__':
             if keyboard.is_pressed('ctrl+c') or not execute_program_process.is_alive():
                 execute_program_process.terminate()
                 break
-        os.system('start /min cmd /c gameplayer.cmd -i gta')
+        os.system('start /min /affinity FFFF0000 python gameplayer.py -i gta')
         exit()
     # elif game[0] == "vip": vipWait()
     # elif game[0] == "golfta": golfta()
