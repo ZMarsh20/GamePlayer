@@ -9,6 +9,16 @@ def end(sig, frame):
     print('ending...')
 
 def booter():
+    i = 0
+    while pyautogui.pixel(2,9) != (192,128,128):
+        i += 1
+        time.sleep(1)
+        if i >= 5*60:
+            if any(p.info['name'] == 'GTA5_Enhanced.exe' for p in psutil.process_iter(['name'])):
+                os.system("start /min cmd /c taskkill /f /im GTA5_Enhanced.exe>nul")
+                time.sleep(2)
+            os.system("start /min cmd /c C:\\Users\\Zach\\Documents\\Projects\\gameplayer\\gtaboot.cmd")
+            exit()
     x,y = 3200,650
     while pyautogui.pixel(x+10,y+10) == (0,0,0):
         pydirectinput.leftClick(x,y)
@@ -64,7 +74,6 @@ def gta_handler(boot=False):
     global END
 
     if boot:
-        time.sleep(60)
         execute_program_process = Process(target=booter)
         execute_program_process.start()
         while True:
@@ -1058,7 +1067,7 @@ def run_gtaafk():
 
 def gtaafkPowerSaver(): # For staff only
     while not END:
-        os.system("C:\\Users\\Zach\\Documents\\Projects\\gameplayer\\gtaboot.cmd")
+        os.system("start /min cmd /c C:\\Users\\Zach\\Documents\\Projects\\gameplayer\\gtaboot.cmd")
         while pyautogui.pixel(3200,1200) == (0, 0, 0): time.sleep(.5)
         time.sleep(35)
         do = True
