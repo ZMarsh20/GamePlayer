@@ -1055,8 +1055,9 @@ def gtaafk():
         for _ in range(48):
             time.sleep(60)
             pydirectinput.press('space')
-def run_gtaafk():
-    execute_program_process = Process(target=gtaafk)
+def run_gtaafk(ps=False):
+    if ps: execute_program_process = Process(target=gtaafkPowerSaver)
+    else: execute_program_process = Process(target=gtaafk)
     execute_program_process.start()
     while True:
         if keyboard.is_pressed('ctrl+c') or not execute_program_process.is_alive():
@@ -1066,10 +1067,14 @@ def run_gtaafk():
     exit()
 
 def gtaafkPowerSaver(): # For staff only
+    skip = False
+    if pyautogui.pixel(3200,1200) != (0, 0, 0): skip = True
     while not END:
-        os.system("start /min cmd /c C:\\Users\\Zach\\Documents\\Projects\\gameplayer\\gtaboot.cmd")
-        while pyautogui.pixel(3200,1200) == (0, 0, 0): time.sleep(.5)
-        time.sleep(35)
+        if not skip:
+            os.system("start /min cmd /c C:\\Users\\Zach\\Documents\\Projects\\gameplayer\\gtaboot.cmd")
+            while pyautogui.pixel(3200,1200) == (0, 0, 0): time.sleep(.5)
+            time.sleep(35)
+        else: time.sleep(5)
         do = True
         while do:
             pydirectinput.PAUSE = .2
@@ -1078,7 +1083,7 @@ def gtaafkPowerSaver(): # For staff only
             pydirectinput.press(['right', 'enter'])
             time.sleep(1)
             do = gtaafkStaff(False)
-        time.sleep(5)
+        time.sleep(2)
         newSession(1)
         time.sleep(46*60)
 
@@ -1213,7 +1218,7 @@ if __name__ == '__main__':
     elif game[0] == "spam" and len(game) == 3: spammer(game[1],game[2])
     elif game[0] == "gta": gta_handler(('boot' in game))
     elif game[0] == "gtaafk": run_gtaafk()
-    elif game[0] == "gtaafkps": gtaafkPowerSaver()
+    elif game[0] == "gtaafkps": run_gtaafk(True)
     # elif game[0] == "9": adversary('one')
     elif game[0] == "9": AP('one')
     elif game[0] == "cayoPlane":
